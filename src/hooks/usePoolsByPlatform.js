@@ -22,7 +22,6 @@ const usePoolsByPlatform = (pools) => {
 
   let poolsByPlatform;
   poolsByPlatform = platform === "All" ? pools : newPools;
-  console.log("poolsBuPlaya", poolsByPlatform);
 
   return { poolsByPlatform, platform, setPlatform };
 };
