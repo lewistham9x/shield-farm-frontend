@@ -104,6 +104,10 @@ const PoolSummary = ({
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
+  const balanceSingle = 0;
+  const balanceUsd = 0;
+  const deposited = 0;
+  const depositedUsd = 0;
 
   // const launchpoolApr = usePoolApr(launchpool ? launchpool.id : null);
   // const vaultStateTitle = useMemo(() => {
@@ -183,6 +187,7 @@ const PoolSummary = ({
             // logo={pool.logo}
             // poolId={pool.farm + pool.id}
             description={pool.farm}
+            chainName={pool.chainName}
             // launchpool={launchpool}
             // addLiquidityUrl={pool.addLiquidityUrl}
             // removeLiquidityUrl={pool.removeLiquidityUrl}
@@ -193,12 +198,12 @@ const PoolSummary = ({
             // launchpool={pool.farm}
           />
         </Grid>
-        {/* <Grid item xs={6} className={`${classes.item} ${classes.itemBalances}`}>
+        <Grid item xs={6} className={`${classes.item} ${classes.itemBalances}`}>
           <LabeledStat
             value={formatDecimals(balanceSingle)}
             subvalue={balanceUsd}
-            label={t("Vault-Wallet")}
-            isLoading={!fetchBalancesDone}
+            label={"Wallet"}
+            // isLoading={!fetchBalancesDone}
             className={classes.itemInner}
           />
         </Grid>
@@ -206,11 +211,11 @@ const PoolSummary = ({
           <LabeledStat
             value={formatDecimals(deposited)}
             subvalue={depositedUsd}
-            label={t("Vault-Deposited")}
-            isLoading={!fetchBalancesDone}
+            label={"Deposited"}
+            // isLoading={!fetchBalancesDone}
             className={classes.itemInner}
           />
-        </Grid> */}
+        </Grid>
         <ApyStats
           apy={{ totalApy: pool.apr / 100 }}
           // launchpoolApr={launchpoolApr}
@@ -232,11 +237,7 @@ const PoolSummary = ({
 };
 
 const formatDecimals = (number) => {
-  return number >= 10
-    ? number.toFixed(4)
-    : number.isEqualTo(0)
-    ? 0
-    : number.toFixed(8);
+  return number >= 10 ? number.toFixed(4) : number == 0 ? 0 : number.toFixed(8);
 };
 
 export default PoolSummary;

@@ -60,6 +60,16 @@ const styles = (theme) => ({
       },
     },
   },
+  chainName: {
+    color: theme.palette.text.primary,
+    marginLeft: "4px",
+    "flex-shrink": 0,
+    fontSize: "16px",
+    fontWeight: "bold",
+    color: theme.palette.text.primary,
+    lineHeight: "30px",
+    letterSpacing: 0,
+  },
   btnBoost: {
     marginTop: "8px",
     marginRight: "5px",
@@ -94,6 +104,7 @@ const useStyles = makeStyles(styles);
 const PoolTitle = ({
   name,
   // logo,
+  chainName,
   poolId,
   description,
   // launchpool,
@@ -143,7 +154,9 @@ const PoolTitle = ({
 
   return (
     <Grid container wrap="nowrap">
-      {/* {avatar} */}
+      <Typography className={classes.chainName} variant="body2" gutterBottom>
+        {chainName}
+      </Typography>
       <div className={classes.texts}>
         <Typography className={classes.title} variant="body2" gutterBottom>
           {poolId
