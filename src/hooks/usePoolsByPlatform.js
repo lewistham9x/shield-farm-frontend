@@ -14,11 +14,15 @@ const usePoolsByPlatform = (pools) => {
     setStorage(KEY, platform);
   }, [setStorage, platform]);
 
-  let poolsByPlatform = pools;
-  if (platform !== DEFAULT) {
-    const newPools = pools.filter((pool) => pool.platform === platform);
-    poolsByPlatform = newPools;
-  }
+  let newPools = [];
+
+  newPools = pools.filter((item) =>
+    item.farm.toLowerCase().includes(platform.toLowerCase())
+  );
+
+  let poolsByPlatform;
+  poolsByPlatform = platform === "All" ? pools : newPools;
+  console.log("poolsBuPlaya", poolsByPlatform);
 
   return { poolsByPlatform, platform, setPlatform };
 };

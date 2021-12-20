@@ -14,10 +14,17 @@ const usePoolsByAsset = (pools) => {
     setStorage(KEY, asset);
   }, [setStorage, asset]);
 
-  let poolsByAsset = pools;
-  if (asset !== DEFAULT) {
-    poolsByAsset = pools.filter((pool) => pool.assets.includes(asset));
-  }
+  let newPools = [];
+
+  console.log("pools", pools);
+  newPools = pools.filter((item) =>
+    item.name.toUpperCase().includes(asset.toUpperCase())
+  );
+
+  console.log("newPools", newPools);
+
+  let poolsByAsset;
+  poolsByAsset = asset === "" ? pools : newPools;
 
   return { poolsByAsset, asset, setAsset };
 };

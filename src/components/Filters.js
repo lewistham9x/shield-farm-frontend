@@ -93,7 +93,7 @@ const Filters = ({
     [setChainName]
   );
   const handleAssetChange = useCallback(
-    (_event, option) => setAsset(option.value),
+    (event) => setChainName(event.target.value),
     [setAsset]
   );
   const handleOrderChange = useCallback(
@@ -101,18 +101,18 @@ const Filters = ({
     [setOrder]
   );
 
-  const allAssetOptions = useMemo(() => {
-    return [
-      {
-        value: "All",
-        label: "Filters",
-      },
-      ...assets.map((asset) => ({
-        value: asset,
-        label: asset,
-      })),
-    ];
-  }, []);
+  // const allAssetOptions = useMemo(() => {
+  //   return [
+  //     {
+  //       value: "All",
+  //       label: "Filters",
+  //     },
+  //     ...assets.map((asset) => ({
+  //       value: asset,
+  //       label: asset,
+  //     })),
+  //   ];
+  // }, []);
 
   const resetFilter = useCallback(() => {
     toggleFilter("resetAll");
@@ -122,24 +122,24 @@ const Filters = ({
     setOrder("default");
   }, [toggleFilter, setPlatform, setChainName, setAsset, setOrder]);
 
-  useEffect(() => {
-    if (
-      (!asset || !allAssetOptions.find((option) => option.value === asset)) &&
-      asset !== "All"
-    ) {
-      setAsset("All");
-    }
-  }, [allAssetOptions, asset, setAsset]);
+  // useEffect(() => {
+  //   if (
+  //     (!asset || !allAssetOptions.find((option) => option.value === asset)) &&
+  //     asset !== "All"
+  //   ) {
+  //     setAsset("All");
+  //   }
+  // }, [allAssetOptions, asset, setAsset]);
 
-  useEffect(() => {
-    if ((!platform || !platforms.includes(platform)) && platform !== "All") {
-      setPlatform("All");
-    }
-  }, [platform, setPlatform]);
+  // useEffect(() => {
+  //   if ((!platform || !platforms.includes(platform)) && platform !== "All") {
+  //     setPlatform("All");
+  //   }
+  // }, [platform, setPlatform]);
 
   return (
     <Grid container spacing={2} className={classes.container}>
-      <Grid item xs={6} sm={4} md={3}>
+      {/* <Grid item xs={6} sm={4} md={3}>
         <Button className={classes.reset} onClick={resetFilter}>
           {"Filters-Reset"}
         </Button>
@@ -215,34 +215,7 @@ const Filters = ({
             // }
           />
         </FormControl>
-      </Grid>
-
-      <Grid item xs={6} sm={4} md={3}>
-        <FormControl className={classes.selectorContainer}>
-          <InputLabel
-            id="select-platform-label"
-            className={classes.selectorLabel}
-          >
-            {"Filters-Platform"}
-          </InputLabel>
-          <Select
-            value={platform}
-            onChange={handlePlatformChange}
-            className={classes.selector}
-            id="select-platform"
-            labelId="select-platform-label"
-          >
-            <MenuItem key={"All"} value={"All"}>
-              {"Filters-All"}
-            </MenuItem>
-            {platforms.map((platform) => (
-              <MenuItem key={platform} value={platform}>
-                {platform}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
+      </Grid> */}
 
       <Grid item xs={6} sm={4} md={3}>
         <FormControl className={classes.selectorContainer}>
@@ -280,31 +253,30 @@ const Filters = ({
 
       <Grid item xs={6} sm={4} md={3}>
         <FormControl className={classes.selectorContainer}>
-          <Autocomplete
-            value={allAssetOptions.find((option) => option.value === asset)}
-            onChange={handleAssetChange}
-            className={classes.selector}
-            id="select-asset"
-            options={allAssetOptions}
-            getOptionLabel={(option) => option.label}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label={"Asset"}
-                InputLabelProps={{
-                  className: classes.selectorLabel,
-                }}
-              />
-            )}
-            disableClearable
-          />
+          <TextField
+            placeholder="PancakeSwap"
+            onChange={handlePlatformChange}
+            // id="select-platform"
+            // labelId="select-platform-label"
+          ></TextField>
         </FormControl>
       </Grid>
+
+      {/* <Grid item xs={6} sm={4} md={3}>
+        <FormControl className={classes.selectorContainer}>
+          <TextField
+            placeholder="USDT-USDC LP"
+            onChange={handleAssetChange}
+            id="select-asset"
+            labelId="select-asset-label"
+          ></TextField>
+        </FormControl>
+      </Grid> */}
 
       <Grid item xs={6} sm={4} md={3}>
         <FormControl className={classes.selectorContainer}>
           <InputLabel id="select-order-label" className={classes.selectorLabel}>
-            {"Filters-Sort"}
+            {"Sort"}
           </InputLabel>
           <Select
             value={order}

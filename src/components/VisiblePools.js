@@ -32,8 +32,6 @@ const styles = (theme) => ({
 const useStyles = makeStyles(styles);
 
 const VisiblePools = ({ pools }) => {
-  console.log("pools", pools);
-
   const classes = useStyles();
   const { filteredPools, toggleFilter, filters } = useFilteredPools(pools);
   const { poolsByPlatform, platform, setPlatform } =
@@ -41,7 +39,7 @@ const VisiblePools = ({ pools }) => {
   const { poolsByChainName, chainName, setChainName } =
     usePoolsByChainName(poolsByPlatform);
   const { poolsByAsset, asset, setAsset } = usePoolsByAsset(poolsByChainName);
-  const { sortedPools, order, setOrder } = useSortedPools(poolsByAsset);
+  const { sortedPools, order, setOrder } = useSortedPools(poolsByChainName); //switch back here to poolsByAsset if need be
 
   var { visiblePools, fetchVisiblePools } = useVisiblePools(sortedPools, 10);
 
