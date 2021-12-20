@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import useFilteredPools from "../hooks/useFilteredPools";
 import usePoolsByPlatform from "../hooks/usePoolsByPlatform";
-import usePoolsByVaultType from "../hooks/usePoolsByVaultType";
+import usePoolsByChainName from "../hooks/usePoolsByChainName";
 import usePoolsByAsset from "../hooks/usePoolsByAsset";
 import useSortedPools from "../hooks/useSortedPools";
 import useVisiblePools from "../hooks/useVisiblePools";
@@ -38,15 +38,12 @@ const VisiblePools = ({ pools }) => {
   const { filteredPools, toggleFilter, filters } = useFilteredPools(pools);
   const { poolsByPlatform, platform, setPlatform } =
     usePoolsByPlatform(filteredPools);
-  const { poolsByVaultType, vaultType, setVaultType } =
-    usePoolsByVaultType(poolsByPlatform);
-  const { poolsByAsset, asset, setAsset } = usePoolsByAsset(poolsByVaultType);
-  const { sortedPools, order, setOrder } = useSortedPools(
-    poolsByAsset
-    // apys,
-    // tokens
-  );
-  const { visiblePools, fetchVisiblePools } = useVisiblePools(sortedPools, 10);
+  const { poolsByChainName, chainName, setChainName } =
+    usePoolsByChainName(poolsByPlatform);
+  const { poolsByAsset, asset, setAsset } = usePoolsByAsset(poolsByChainName);
+  const { sortedPools, order, setOrder } = useSortedPools(poolsByAsset);
+
+  var { visiblePools, fetchVisiblePools } = useVisiblePools(sortedPools, 10);
 
   return (
     <>
@@ -54,11 +51,11 @@ const VisiblePools = ({ pools }) => {
         toggleFilter={toggleFilter}
         filters={filters}
         platform={platform}
-        vaultType={vaultType}
+        chainName={chainName}
         asset={asset}
         order={order}
         setPlatform={setPlatform}
-        setVaultType={setVaultType}
+        setChainName={setChainName}
         setAsset={setAsset}
         setOrder={setOrder}
       />
@@ -82,7 +79,7 @@ const VisiblePools = ({ pools }) => {
         </InfiniteScroll>
       </div>
       {!sortedPools.length && (
-        <h3 className={classes.subtitle}>{"No-Results"}</h3>
+        <h3 className={classes.subtitle}>{"No Results"}</h3>
       )}
     </>
   );

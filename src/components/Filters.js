@@ -71,27 +71,26 @@ const Filters = ({
   toggleFilter,
   filters,
   platform,
-  vaultType,
+  chainName,
   asset,
   order,
   setPlatform,
-  setVaultType,
+  setChainName,
   setAsset,
   setOrder,
 }) => {
   const assets = [];
   const platforms = [];
 
-  const { t } = useTranslation();
   const classes = useStyles();
 
   const handlePlatformChange = useCallback(
     (event) => setPlatform(event.target.value),
     [setPlatform]
   );
-  const handleVaultTypeChange = useCallback(
-    (event) => setVaultType(event.target.value),
-    [setVaultType]
+  const handleChainNameChange = useCallback(
+    (event) => setChainName(event.target.value),
+    [setChainName]
   );
   const handleAssetChange = useCallback(
     (_event, option) => setAsset(option.value),
@@ -106,22 +105,22 @@ const Filters = ({
     return [
       {
         value: "All",
-        label: t("Filters-All"),
+        label: "Filters",
       },
       ...assets.map((asset) => ({
         value: asset,
         label: asset,
       })),
     ];
-  }, [t]);
+  }, []);
 
   const resetFilter = useCallback(() => {
     toggleFilter("resetAll");
     setPlatform("All");
-    setVaultType("All");
+    setChainName("All");
     setAsset("All");
     setOrder("default");
-  }, [toggleFilter, setPlatform, setVaultType, setAsset, setOrder]);
+  }, [toggleFilter, setPlatform, setChainName, setAsset, setOrder]);
 
   useEffect(() => {
     if (
@@ -142,7 +141,7 @@ const Filters = ({
     <Grid container spacing={2} className={classes.container}>
       <Grid item xs={6} sm={4} md={3}>
         <Button className={classes.reset} onClick={resetFilter}>
-          {t("Filters-Reset")}
+          {"Filters-Reset"}
         </Button>
         <FormControl>
           <FormControlLabel
@@ -155,7 +154,7 @@ const Filters = ({
               />
             }
             // TODO: translate labels
-            label={t("Hide-Zero-Balances")}
+            label={"Hide-Zero-Balances"}
           />
         </FormControl>
       </Grid>
@@ -172,7 +171,7 @@ const Filters = ({
               />
             }
             // TODO: translate labels
-            label={t("Retired-Vaults")}
+            label={"Retired-Vaults"}
           />
         </FormControl>
       </Grid>
@@ -189,7 +188,7 @@ const Filters = ({
               />
             }
             // TODO: translate labels
-            label={t("Hide-Zero-Vault-Balances")}
+            label={"Hide-Zero-Vault-Balances"}
           />
         </FormControl>
       </Grid>
@@ -224,7 +223,7 @@ const Filters = ({
             id="select-platform-label"
             className={classes.selectorLabel}
           >
-            {t("Filters-Platform")}
+            {"Filters-Platform"}
           </InputLabel>
           <Select
             value={platform}
@@ -234,7 +233,7 @@ const Filters = ({
             labelId="select-platform-label"
           >
             <MenuItem key={"All"} value={"All"}>
-              {t("Filters-All")}
+              {"Filters-All"}
             </MenuItem>
             {platforms.map((platform) => (
               <MenuItem key={platform} value={platform}>
@@ -251,26 +250,29 @@ const Filters = ({
             id="select-vault-type-label"
             className={classes.selectorLabel}
           >
-            {t("Filters-Vault-Type")}
+            {"Chain"}
           </InputLabel>
           <Select
-            value={vaultType}
-            onChange={handleVaultTypeChange}
+            value={chainName}
+            onChange={handleChainNameChange}
             className={classes.selector}
             id="select-vault-type"
             labelId="select-vault-type-label"
           >
             <MenuItem key={"All"} value={"All"}>
-              {t("Filters-All")}
+              {"All"}
             </MenuItem>
-            <MenuItem key={"Singles"} value={"Singles"}>
-              {t("Filters-Type-SingleAssets")}
+            <MenuItem key={"BSC"} value={"BSC"}>
+              {"Binance Smart Chain"}
             </MenuItem>
-            <MenuItem key={"StableLPs"} value={"StableLPs"}>
-              {t("Filters-Type-StableLPs")}
+            <MenuItem key={"AVAX"} value={"AVAX"}>
+              {"Avalanche"}
             </MenuItem>
-            <MenuItem key={"Stables"} value={"Stables"}>
-              {t("Filters-Type-Stables")}
+            <MenuItem key={"MATIC"} value={"MATIC"}>
+              {"Polygon"}
+            </MenuItem>
+            <MenuItem key={"FTM"} value={"FTM"}>
+              {"Fantom"}
             </MenuItem>
           </Select>
         </FormControl>
@@ -288,7 +290,7 @@ const Filters = ({
             renderInput={(params) => (
               <TextField
                 {...params}
-                label={t("Filters-Asset")}
+                label={"Asset"}
                 InputLabelProps={{
                   className: classes.selectorLabel,
                 }}
@@ -302,7 +304,7 @@ const Filters = ({
       <Grid item xs={6} sm={4} md={3}>
         <FormControl className={classes.selectorContainer}>
           <InputLabel id="select-order-label" className={classes.selectorLabel}>
-            {t("Filters-Sort")}
+            {"Filters-Sort"}
           </InputLabel>
           <Select
             value={order}
@@ -311,8 +313,8 @@ const Filters = ({
             id="select-order"
             labelId="select-order-label"
           >
-            <MenuItem value={"default"}>{t("Filters-Default")}</MenuItem>
-            <MenuItem value={"apy"}>APY</MenuItem>
+            <MenuItem value={"default"}>Default</MenuItem>
+            <MenuItem value={"apr"}>APR</MenuItem>
             <MenuItem value={"tvl"}>TVL</MenuItem>
           </Select>
         </FormControl>

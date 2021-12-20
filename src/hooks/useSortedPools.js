@@ -16,8 +16,8 @@ const useSortedPools = (pools, apys, tokens) => {
 
   let sortedPools = pools;
   switch (order) {
-    case "apy":
-      sortedPools = handleApy(pools, apys);
+    case "apr":
+      sortedPools = handleApr(pools, apys);
       break;
     case "tvl":
       sortedPools = handleTvl(pools);
@@ -26,48 +26,36 @@ const useSortedPools = (pools, apys, tokens) => {
       break;
   }
 
-  sortedPools = showDecommissionedFirst(sortedPools, tokens);
+  // sortedPools = showDecommissionedFirst(sortedPools, tokens);
 
   return { sortedPools, order, setOrder };
 };
 
-const handleApy = (pools, apys) => {
+const handleApr = (pools) => {
   const newPools = [...pools];
-  return newPools.sort((a, b) => {
-    if (apys[a.id] === apys[b.id]) {
-      return 0;
-    } else if (apys[a.id] === undefined) {
-      return 1;
-    } else if (apys[b.id] === undefined) {
-      return -1;
-    }
-
-    return apys[b.id].totalApy - apys[a.id].totalApy;
-  });
+  newPools.sort((a, b) => (a.apr < b.apr ? 1 : -1));
+  return newPools;
 };
 
 const handleTvl = (pools) => {
   const newPools = [...pools];
-  return newPools.sort((a, b) => {
-    const aPrice = a.oraclePrice;
-    const bPrice = b.oraclePrice;
-    return b.tvl * bPrice - a.tvl * aPrice;
-  });
+  newPools.sort((a, b) => (a.totalStaked < b.totalStaked ? 1 : -1));
+  return newPools;
 };
 
-function showDecommissionedFirst(pools, tokens) {
-  for (let i = 0; i < pools.length; i++) {
-    // if ( EOL or REFUND ) AND (Deposited Balance > 0)
-    if (
-      (pools[i].status === "eol" || pools[i].status === "refund") &&
-      tokens[pools[i].earnedToken] &&
-      tokens[pools[i].earnedToken].tokenBalance > 0
-    ) {
-      // Remove Vault from pools, insert it at the top.
-      pools.splice(0, 0, pools.splice(i, 1)[0]);
-    }
-  }
-  return pools;
-}
+// function showDecommissionedFirst(pools, tokens) {
+//   for (let i = 0; i < pools.length; i++) {
+//     // if ( EOL or REFUND ) AND (Deposited Balance > 0)
+//     if (
+//       (pools[i].status === "eol" || pools[i].status === "refund") &&
+//       tokens[pools[i].earnedToken] &&
+//       tokens[pools[i].earnedToken].tokenBalance > 0
+//     ) {
+//       // Remove Vault from pools, insert it at the top.
+//       pools.splice(0, 0, pools.splice(i, 1)[0]);
+//     }
+//   }
+//   return pools;
+// }
 
 export default useSortedPools;

@@ -102,7 +102,6 @@ const PoolSummary = ({
   // fetchVaultsDataDone,
   // multipleLaunchpools = false,
 }) => {
-  const { t } = useTranslation();
   const classes = useStyles();
   const balanceSingle = 0;
   const balanceUsd = 0;
@@ -226,7 +225,7 @@ const PoolSummary = ({
         <Grid item xs={4} className={`${classes.item} ${classes.itemStats}`}>
           <LabeledStat
             value={formatTvl(pool.totalStaked, pool.oraclePrice)}
-            label={t("TVL")}
+            label={"TVL"}
             // isLoading={!fetchVaultsDataDone}
             className={classes.itemInner}
           />
