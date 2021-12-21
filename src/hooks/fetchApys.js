@@ -63,11 +63,11 @@ export function updatePool(farm, id) {
             `https://shieldapi.miim.club/pools/cached`
           );
 
-          console.log("Got first request");
+          // console.log("Got first request");
 
           getCache.then((cache) => {
             const pools = cache.data;
-            console.log("Got second request", pools);
+            // console.log("Got second request", pools);
 
             var newPools = [];
 

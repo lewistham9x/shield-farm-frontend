@@ -16,12 +16,12 @@ const usePoolsByAsset = (pools) => {
 
   let newPools = [];
 
-  console.log("pools", pools);
+  // console.log("pools", pools);
   newPools = pools.filter((item) =>
     item.name.toUpperCase().includes(asset.toUpperCase())
   );
 
-  console.log("newPools", newPools);
+  // console.log("newPools", newPools);
 
   let poolsByAsset;
   poolsByAsset = asset === "" ? pools : newPools;

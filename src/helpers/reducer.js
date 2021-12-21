@@ -46,7 +46,7 @@ export default function reducer(state = initialState, action) {
       };
       break;
     case VAULT_UPDATE_POOL_BEGIN:
-      console.log("action.data", action.data);
+      // console.log("action.data", action.data);
       newState = {
         ...state,
         updatePoolDone: action.data,
