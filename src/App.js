@@ -69,7 +69,7 @@ function App() {
       <StylesProvider injectFirst>
         <ThemeProvider theme={theme}>
           <Grid container className={classes.container}>
-            <VisiblePools pools={pools} fetchApysDone={fetchApysDone} />
+            <VisiblePools pools={pools} />
           </Grid>
         </ThemeProvider>
       </StylesProvider>

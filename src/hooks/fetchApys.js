@@ -39,25 +39,32 @@ export function fetchApys() {
   };
 }
 
-export function updatePool(farm, id, pools) {
+export function updatePool(data, addLoadingPool, removeLoadingPool) {
+  const pool = data.pool;
+  const pools = data.pools;
+
   return (dispatch) => {
     dispatch({
       type: VAULT_UPDATE_POOL_BEGIN,
-      data: { farm: farm, id: id },
     });
+
+    addLoadingPool(pool);
+
     return new Promise((resolve, reject) => {
       const doRequest = axios.get(
-        `https://shieldapi.miim.club/pools/${farm}/${id}`
+        `https://shieldapi.miim.club/pools/${pool.farm}/${pool.id}`
       );
+
+      // console.log("pools", pools);
 
       doRequest.then(
         (res) => {
+          removeLoadingPool(pool);
+
           dispatch({
             type: VAULT_UPDATE_POOL_SUCCESS,
             data: res.data,
           });
-
-          // console.log("Got second request", pools);
 
           var newPools = [];
 
@@ -68,8 +75,6 @@ export function updatePool(farm, id, pools) {
               newPools.push(pool);
             }
           }
-
-          res.data = newPools;
 
           dispatch({
             type: VAULT_FETCH_APYS_SUCCESS,
@@ -96,8 +101,6 @@ export function useFetchApys() {
   const { pools, fetchApysPending, fetchApysDone } = useSelector(
     (state) => ({
       pools: state.pools,
-      fetchApysDone: state.fetchApysDone,
-      fetchApysPending: state.fetchApysPending,
     }),
     shallowEqual
   );
@@ -134,7 +137,6 @@ export function useUpdatePool() {
   );
 
   return {
-    pool,
     updatePool: boundAction,
     updatePoolDone,
     updatePoolPending,

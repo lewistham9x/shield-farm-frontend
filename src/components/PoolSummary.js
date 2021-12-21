@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useState, useEffect } from "react";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Grid from "@material-ui/core/Grid";
 import Refresh from "@material-ui/icons/Refresh";
@@ -17,6 +17,8 @@ import ApyStats from "./ApyStats";
 // import { PoolBoosts } from "./PoolBoosts/PoolBoosts";
 // import { getRetireReason } from "./RetireReason/RetireReason";
 // import { getPoolWarning } from "./PoolWarning/PoolWarning";
+
+import useStorage from "../hooks/useStorage";
 
 const styles = (theme) => ({
   details: {
@@ -117,7 +119,10 @@ const PoolSummary = ({
   // apy,
   // fetchBalancesDone,
   updatePool,
-  fetchApysDone,
+  loadingPools,
+  addLoadingPool,
+  removeLoadingPool,
+  // fetchApysDone,
   // fetchVaultsDataDone,
   // multipleLaunchpools = false,
 }) => {
@@ -238,7 +243,9 @@ const PoolSummary = ({
           apy={{ totalApy: pool.apr / 100 }}
           // launchpoolApr={launchpoolApr}
           isLoading={
-            fetchApysDone.farm == pool.farm && fetchApysDone.id == pool.id
+            loadingPools.filter(
+              (e) => e.name === pool.name && e.farm === pool.farm
+            ).length > 0
           }
           itemClasses={`${classes.item} ${classes.itemStats}`}
           itemInnerClasses={classes.itemInner}
@@ -248,7 +255,9 @@ const PoolSummary = ({
             value={formatTvl(pool.totalStaked, pool.oraclePrice)}
             label={"TVL"}
             isLoading={
-              fetchApysDone.farm == pool.farm && fetchApysDone.id == pool.id
+              loadingPools.filter(
+                (e) => e.name === pool.name && e.farm === pool.farm
+              ).length > 0
             }
             className={classes.itemInner}
           />
@@ -257,7 +266,13 @@ const PoolSummary = ({
           <IconButton
             label="Update"
             className={classes.itemInner}
-            onClick={() => updatePool(pool.farm, pool.id, pools)}
+            onClick={() => {
+              updatePool(
+                { pool: pool, pools: pools },
+                addLoadingPool,
+                removeLoadingPool
+              );
+            }}
           >
             <Refresh />
           </IconButton>

@@ -10,8 +10,10 @@ import usePoolsByAsset from "../hooks/usePoolsByAsset";
 import useSortedPools from "../hooks/useSortedPools";
 import useVisiblePools from "../hooks/useVisiblePools";
 import { useUpdatePool } from "../hooks/fetchApys";
+import { useEffect, useState, useCallback } from "react";
 import Pool from "./Pool";
 import Filters from "./Filters";
+import useStorage from "../hooks/useStorage";
 
 const styles = (theme) => ({
   scroller: {
@@ -31,7 +33,7 @@ const styles = (theme) => ({
 
 const useStyles = makeStyles(styles);
 
-const VisiblePools = ({ pools, fetchApysDone }) => {
+const VisiblePools = ({ pools }) => {
   const classes = useStyles();
   const { filteredPools, toggleFilter, filters } = useFilteredPools(pools);
   const { poolsByPlatform, platform, setPlatform } =
@@ -40,11 +42,48 @@ const VisiblePools = ({ pools, fetchApysDone }) => {
     usePoolsByChainName(poolsByPlatform);
   const { poolsByAsset, asset, setAsset } = usePoolsByAsset(poolsByChainName);
   const { sortedPools, order, setOrder } = useSortedPools(poolsByChainName); //switch back here to poolsByAsset if need be
-
   var { visiblePools, fetchVisiblePools } = useVisiblePools(sortedPools, 10);
 
   const { pool, updatePool, updatePoolDone, updatePoolPending } =
     useUpdatePool();
+
+  const { getStorage, setStorage } = useStorage();
+  // const vaultLaunchpools = useSelector((state) => state.vault.vaultLaunchpool);
+  // const recentStakedLaunchpools = useRecentStakedLaunchpools();
+  setStorage("loadingPools", []);
+  const data = getStorage("loadingPools");
+
+  const [loadingPools, setLoadingPools] = useState(data ? data : []);
+
+  const addLoadingPool = useCallback(
+    (pool) => {
+      var newPools = [...getStorage("loadingPools"), pool];
+      setLoadingPools(newPools);
+    },
+    [loadingPools, setLoadingPools]
+  );
+
+  const removeLoadingPool = useCallback(
+    (pool) => {
+      var index = 0;
+
+      var newPools = [...getStorage("loadingPools")];
+
+      for (const newPool of newPools) {
+        if (newPool.id == pool.id && newPool.farm == pool.farm) {
+          newPools.splice(index, 1);
+          break;
+        }
+        index++;
+      }
+      setLoadingPools(newPools);
+    },
+    [loadingPools, setLoadingPools]
+  );
+
+  useEffect(() => {
+    setStorage("loadingPools", loadingPools);
+  }, [setStorage, loadingPools]);
 
   return (
     <>
@@ -74,8 +113,11 @@ const VisiblePools = ({ pools, fetchApysDone }) => {
               // apy={pool.apr || { totalApy: 0 }}
               key={pool.farm + pool.id}
               // fetchBalancesDone={fetchBalancesDone}
-              fetchApysDone={updatePoolDone}
+              // fetchApysDone={refPools.current}
               updatePool={updatePool}
+              loadingPools={loadingPools}
+              addLoadingPool={addLoadingPool}
+              removeLoadingPool={removeLoadingPool}
               // fetchVaultsDataDone={fetchVaultsDataDone}
             />
           ))}

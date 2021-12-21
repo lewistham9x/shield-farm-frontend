@@ -14,8 +14,6 @@ const initialState = {
   pools: [],
   fetchApysPending: true,
   fetchApysDone: false,
-  updatePoolPending: false,
-  updatePoolDone: true,
 };
 
 export default function reducer(state = initialState, action) {
@@ -46,26 +44,19 @@ export default function reducer(state = initialState, action) {
       };
       break;
     case VAULT_UPDATE_POOL_BEGIN:
-      // console.log("action.data", action.data);
       newState = {
         ...state,
-        updatePoolDone: action.data,
-        updatePoolPending: true,
       };
       break;
     case VAULT_UPDATE_POOL_SUCCESS:
       newState = {
         ...state,
         pool: action.data,
-        updatePoolDone: true,
-        updatePoolPending: false,
       };
       break;
     case VAULT_UPDATE_POOL_FAILURE:
       newState = {
         ...state,
-        updatePoolDone: false,
-        updatePoolPending: false,
       };
       break;
     default:
