@@ -254,7 +254,7 @@ const Filters = ({
       <Grid item xs={6} sm={4} md={3}>
         <FormControl className={classes.selectorContainer}>
           <TextField
-            placeholder="PancakeSwap"
+            placeholder="PancakeSwap or USDC"
             onChange={handlePlatformChange}
             // id="select-platform"
             // labelId="select-platform-label"

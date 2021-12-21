@@ -16,8 +16,10 @@ const usePoolsByPlatform = (pools) => {
 
   let newPools = [];
 
-  newPools = pools.filter((item) =>
-    item.farm.toLowerCase().includes(platform.toLowerCase())
+  newPools = pools.filter(
+    (item) =>
+      item.farm.toLowerCase().includes(platform.toLowerCase()) ||
+      item.name.toLowerCase().includes(platform.toLowerCase())
   );
 
   let poolsByPlatform;
