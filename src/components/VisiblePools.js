@@ -69,6 +69,7 @@ const VisiblePools = ({ pools, fetchApysDone }) => {
           {visiblePools.map((pool) => (
             <Pool
               pool={pool}
+              pools={pools}
               // tokens={tokens}
               // apy={pool.apr || { totalApy: 0 }}
               key={pool.farm + pool.id}

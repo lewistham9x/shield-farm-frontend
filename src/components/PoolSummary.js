@@ -108,6 +108,7 @@ const styles = (theme) => ({
 const useStyles = makeStyles(styles);
 
 const PoolSummary = ({
+  pools,
   pool,
   // launchpool,
   toggleCard,
@@ -256,7 +257,7 @@ const PoolSummary = ({
           <IconButton
             label="Update"
             className={classes.itemInner}
-            onClick={() => updatePool(pool.farm, pool.id)}
+            onClick={() => updatePool(pool.farm, pool.id, pools)}
           >
             <Refresh />
           </IconButton>

@@ -31,6 +31,7 @@ const styles = (theme) => ({
 const useStyles = makeStyles(styles);
 
 const Pool = ({
+  pools,
   pool,
   key,
   // tokens,
@@ -91,6 +92,7 @@ const Pool = ({
         TransitionProps={{ unmountOnExit: true }}
       >
         <PoolSummary
+          pools={pools}
           pool={pool}
           toggleCard={toggleCard}
           updatePool={updatePool}
