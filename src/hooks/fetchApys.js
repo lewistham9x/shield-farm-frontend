@@ -58,7 +58,36 @@ export function updatePool(farm, id) {
             type: VAULT_UPDATE_POOL_SUCCESS,
             data: res.data,
           });
-          resolve(res);
+
+          const getCache = axios.get(
+            `https://shieldapi.miim.club/pools/cached`
+          );
+
+          console.log("Got first request");
+
+          getCache.then((cache) => {
+            const pools = cache.data;
+            console.log("Got second request", pools);
+
+            var newPools = [];
+
+            for (const pool of pools) {
+              if (pool.id === res.data.id && pool.farm === res.data.farm) {
+                newPools.push(res.data);
+              } else {
+                newPools.push(pool);
+              }
+            }
+
+            res.data = newPools;
+
+            dispatch({
+              type: VAULT_FETCH_APYS_SUCCESS,
+              data: newPools,
+            });
+
+            resolve(res);
+          });
         },
         (err) => {
           dispatch({
