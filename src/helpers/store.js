@@ -26,8 +26,6 @@ function configureStore(initialState) {
     compose(applyMiddleware(...middlewares), devToolsExtension)
   );
 
-  console.log("ASDFASF", store);
-
   /* istanbul ignore if  */
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers

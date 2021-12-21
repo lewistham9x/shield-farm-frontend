@@ -24,7 +24,7 @@ const getTheme = (mode) => {
 };
 
 function App() {
-  const { pools, fetchApys } = useFetchApys();
+  const { pools, fetchApys, fetchApysDone } = useFetchApys();
   // const { isNightMode, setNightMode } = useNightMode();
   const isNightMode = false;
 
@@ -69,7 +69,7 @@ function App() {
       <StylesProvider injectFirst>
         <ThemeProvider theme={theme}>
           <Grid container className={classes.container}>
-            <VisiblePools pools={pools} />
+            <VisiblePools pools={pools} fetchApysDone={fetchApysDone} />
           </Grid>
         </ThemeProvider>
       </StylesProvider>

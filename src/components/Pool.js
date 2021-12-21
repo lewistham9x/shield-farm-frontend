@@ -32,11 +32,12 @@ const useStyles = makeStyles(styles);
 
 const Pool = ({
   pool,
-  // key,
+  key,
   // tokens,
   // apy,
   // fetchBalancesDone,
-  // fetchApysDone,
+  fetchApysDone,
+  updatePool,
   // fetchVaultsDataDone,
 }) => {
   const classes = useStyles();
@@ -92,6 +93,8 @@ const Pool = ({
         <PoolSummary
           pool={pool}
           toggleCard={toggleCard}
+          updatePool={updatePool}
+          fetchApysDone={fetchApysDone}
           // multipleLaunchpools={multipleLaunchpools}
         />
         <Divider variant="middle" className={classes.divider} />

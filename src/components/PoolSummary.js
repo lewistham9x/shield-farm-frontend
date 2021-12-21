@@ -1,6 +1,8 @@
 import React, { useCallback, useMemo } from "react";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Grid from "@material-ui/core/Grid";
+import Refresh from "@material-ui/icons/Refresh";
+import IconButton from "@material-ui/core/IconButton";
 import { useTranslation } from "react-i18next";
 import BigNumber from "bignumber.js";
 import { makeStyles } from "@material-ui/core/styles";
@@ -62,16 +64,16 @@ const styles = (theme) => ({
   },
   itemBalances: {
     [theme.breakpoints.up("sm")]: {
-      flexBasis: "25%",
-      maxWidth: "25%",
+      flexBasis: "40%",
+      maxWidth: "40%",
     },
     [theme.breakpoints.up("md")]: {
-      flexBasis: "15%",
-      maxWidth: "15%",
+      flexBasis: "20%",
+      maxWidth: "20%",
     },
     [theme.breakpoints.up("lg")]: {
-      flexBasis: "18%",
-      maxWidth: "18%",
+      flexBasis: "26%",
+      maxWidth: "26%",
     },
   },
   itemStats: {
@@ -87,6 +89,20 @@ const styles = (theme) => ({
   itemInner: {
     textAlign: "center",
   },
+  refresh: {
+    [theme.breakpoints.up("sm")]: {
+      flexBasis: "10%",
+      maxWidth: "10%",
+    },
+    [theme.breakpoints.up("md")]: {
+      flexBasis: "10%",
+      maxWidth: "10%",
+    },
+    [theme.breakpoints.up("lg")]: {
+      flexBasis: "10%",
+      maxWidth: "10%",
+    },
+  },
 });
 
 const useStyles = makeStyles(styles);
@@ -99,7 +115,8 @@ const PoolSummary = ({
   // sharesBalance,
   // apy,
   // fetchBalancesDone,
-  // fetchApysDone,
+  updatePool,
+  fetchApysDone,
   // fetchVaultsDataDone,
   // multipleLaunchpools = false,
 }) => {
@@ -207,7 +224,7 @@ const PoolSummary = ({
             className={classes.itemInner}
           />
         </Grid>
-        <Grid item xs={6} className={`${classes.item} ${classes.itemBalances}`}>
+        {/* <Grid item xs={6} className={`${classes.item} ${classes.itemBalances}`}>
           <LabeledStat
             value={formatDecimals(deposited)}
             subvalue={depositedUsd}
@@ -215,11 +232,13 @@ const PoolSummary = ({
             // isLoading={!fetchBalancesDone}
             className={classes.itemInner}
           />
-        </Grid>
+        </Grid> */}
         <ApyStats
           apy={{ totalApy: pool.apr / 100 }}
           // launchpoolApr={launchpoolApr}
-          // isLoading={!fetchApysDone}
+          isLoading={
+            fetchApysDone.farm == pool.farm && fetchApysDone.id == pool.id
+          }
           itemClasses={`${classes.item} ${classes.itemStats}`}
           itemInnerClasses={classes.itemInner}
         />
@@ -227,9 +246,20 @@ const PoolSummary = ({
           <LabeledStat
             value={formatTvl(pool.totalStaked, pool.oraclePrice)}
             label={"TVL"}
-            // isLoading={!fetchVaultsDataDone}
+            isLoading={
+              fetchApysDone.farm == pool.farm && fetchApysDone.id == pool.id
+            }
             className={classes.itemInner}
           />
+        </Grid>
+        <Grid item xs={4} className={`${classes.item} ${classes.refresh}`}>
+          <IconButton
+            label="Update"
+            className={classes.itemInner}
+            onClick={() => updatePool(pool.farm, pool.id)}
+          >
+            <Refresh />
+          </IconButton>
         </Grid>
       </Grid>
     </AccordionSummary>

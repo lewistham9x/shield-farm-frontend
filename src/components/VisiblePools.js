@@ -9,7 +9,7 @@ import usePoolsByChainName from "../hooks/usePoolsByChainName";
 import usePoolsByAsset from "../hooks/usePoolsByAsset";
 import useSortedPools from "../hooks/useSortedPools";
 import useVisiblePools from "../hooks/useVisiblePools";
-
+import { useUpdatePool } from "../hooks/fetchApys";
 import Pool from "./Pool";
 import Filters from "./Filters";
 
@@ -31,7 +31,7 @@ const styles = (theme) => ({
 
 const useStyles = makeStyles(styles);
 
-const VisiblePools = ({ pools }) => {
+const VisiblePools = ({ pools, fetchApysDone }) => {
   const classes = useStyles();
   const { filteredPools, toggleFilter, filters } = useFilteredPools(pools);
   const { poolsByPlatform, platform, setPlatform } =
@@ -42,6 +42,9 @@ const VisiblePools = ({ pools }) => {
   const { sortedPools, order, setOrder } = useSortedPools(poolsByChainName); //switch back here to poolsByAsset if need be
 
   var { visiblePools, fetchVisiblePools } = useVisiblePools(sortedPools, 10);
+
+  const { pool, updatePool, updatePoolDone, updatePoolPending } =
+    useUpdatePool();
 
   return (
     <>
@@ -70,7 +73,8 @@ const VisiblePools = ({ pools }) => {
               // apy={pool.apr || { totalApy: 0 }}
               key={pool.farm + pool.id}
               // fetchBalancesDone={fetchBalancesDone}
-              // fetchApysDone={fetchApysDone}
+              fetchApysDone={updatePoolDone}
+              updatePool={updatePool}
               // fetchVaultsDataDone={fetchVaultsDataDone}
             />
           ))}

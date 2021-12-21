@@ -6,6 +6,9 @@ import {
   VAULT_FETCH_APYS_BEGIN,
   VAULT_FETCH_APYS_SUCCESS,
   VAULT_FETCH_APYS_FAILURE,
+  VAULT_UPDATE_POOL_BEGIN,
+  VAULT_UPDATE_POOL_SUCCESS,
+  VAULT_UPDATE_POOL_FAILURE,
 } from "../helpers/constants";
 
 export function fetchApys() {
@@ -36,10 +39,50 @@ export function fetchApys() {
   };
 }
 
+export function updatePool(farm, id) {
+  return (dispatch) => {
+    dispatch({
+      type: VAULT_UPDATE_POOL_BEGIN,
+      data: { farm: farm, id: id },
+    });
+    return new Promise((resolve, reject) => {
+      console.log(farm, id);
+
+      const doRequest = axios.get(
+        `https://shieldapi.miim.club/pools/${farm}/${id}`
+      );
+
+      doRequest.then(
+        (res) => {
+          dispatch({
+            type: VAULT_UPDATE_POOL_SUCCESS,
+            data: res.data,
+          });
+          resolve(res);
+        },
+        (err) => {
+          dispatch({
+            type: VAULT_UPDATE_POOL_FAILURE,
+            data: { error: err },
+          });
+          reject(err);
+        }
+      );
+    });
+  };
+}
+
 export function useFetchApys() {
   const dispatch = useDispatch();
 
-  const pools = useSelector((state) => state.pools);
+  const { pools, fetchApysPending, fetchApysDone } = useSelector(
+    (state) => ({
+      pools: state.pools,
+      fetchApysDone: state.fetchApysDone,
+      fetchApysPending: state.fetchApysPending,
+    }),
+    shallowEqual
+  );
 
   const boundAction = useCallback(() => {
     dispatch(fetchApys());
@@ -47,36 +90,35 @@ export function useFetchApys() {
 
   return {
     pools,
-    // return {
     fetchApys: boundAction,
-    // fetchApysDone,
-    // fetchApysPending,
+    fetchApysDone,
+    fetchApysPending,
   };
 }
 
-export function reducer(state, action) {
-  switch (action.type) {
-    case VAULT_FETCH_APYS_BEGIN:
-      return {
-        ...state,
-        fetchApysPending: true,
-      };
+export function useUpdatePool() {
+  const dispatch = useDispatch();
 
-    case VAULT_FETCH_APYS_SUCCESS:
-      return {
-        ...state,
-        apys: action.data,
-        fetchApysDone: true,
-        fetchApysPending: false,
-      };
+  const { pool, updatePoolPending, updatePoolDone } = useSelector(
+    (state) => ({
+      pool: state.pool,
+      updatePoolPending: state.updatePoolPending,
+      updatePoolDone: state.updatePoolDone,
+    }),
+    shallowEqual
+  );
 
-    case VAULT_FETCH_APYS_FAILURE:
-      return {
-        ...state,
-        fetchApysPending: false,
-      };
+  const boundAction = useCallback(
+    (farm, id) => {
+      dispatch(updatePool(farm, id));
+    },
+    [dispatch]
+  );
 
-    default:
-      return state;
-  }
+  return {
+    pool,
+    updatePool: boundAction,
+    updatePoolDone,
+    updatePoolPending,
+  };
 }
