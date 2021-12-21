@@ -122,6 +122,11 @@ const Filters = ({
     setOrder("default");
   }, [toggleFilter, setPlatform, setChainName, setAsset, setOrder]);
 
+  // Reset Filter for platform
+  useEffect(() => {
+    setPlatform("");
+  }, []);
+
   // useEffect(() => {
   //   if (
   //     (!asset || !allAssetOptions.find((option) => option.value === asset)) &&
