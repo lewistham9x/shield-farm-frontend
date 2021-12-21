@@ -26,7 +26,7 @@ const getTheme = (mode) => {
 function App() {
   const { pools, fetchApys } = useFetchApys();
   // const { isNightMode, setNightMode } = useNightMode();
-  const isNightMode = true;
+  const isNightMode = false;
 
   // console.log("apys", pools);
   const theme = useMemo(

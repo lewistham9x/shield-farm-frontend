@@ -21,6 +21,7 @@ const styles = (theme) => ({
     display: "flex",
     alignItems: "center",
     background: theme.palette.background.primary,
+    borderRadius: "5px",
   },
   detailsPaused: {
     display: "flex",

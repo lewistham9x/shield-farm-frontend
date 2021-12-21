@@ -16,10 +16,12 @@ const styles = (theme) => ({
   container: {
     marginBottom: "24px",
     border: "1px solid " + theme.palette.background.border,
+    borderRadius: "5px",
   },
   accordion: {
     width: "100%",
     backgroundColor: theme.palette.background.primary,
+    borderRadius: "5px",
   },
   divider: {
     margin: "0 30px",
