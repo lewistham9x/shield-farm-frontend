@@ -177,6 +177,13 @@ const PoolSummary = ({
   //   deposited > 0 && fetchVaultsDataDone
   //     ? formatTvl(deposited, pool.oraclePrice)
   //     : "";
+
+  const onRefreshClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    updatePool({ pool: pool, pools: pools }, addLoadingPool, removeLoadingPool);
+  };
+
   const onSummaryClick = useCallback(
     (e) => {
       if (!e.target || !e.target.classList.contains("tooltip-toggle")) {
@@ -261,13 +268,7 @@ const PoolSummary = ({
           <IconButton
             label="Update"
             className={classes.itemInner}
-            onClick={() => {
-              updatePool(
-                { pool: pool, pools: pools },
-                addLoadingPool,
-                removeLoadingPool
-              );
-            }}
+            onClick={onRefreshClick}
           >
             <Refresh />
           </IconButton>

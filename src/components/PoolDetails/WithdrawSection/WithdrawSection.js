@@ -54,7 +54,7 @@ const WithdrawSection = ({ pool, index, sharesBalance }) => {
   } = useFetchWithdraw();
   const { fetchZapWithdrawEstimate, fetchZapEstimatePending } =
     useFetchZapEstimate();
-  const { tokens, fetchBalances, fetchPairReverves } = useFetchBalances();
+  const { balances, fetchBalances, fetchPairReverves } = useFetchBalances();
 
   const sharesDecimals = pool.tokenDecimals;
   const sharesByDecimals = byDecimals(sharesBalance, sharesDecimals);
@@ -66,9 +66,10 @@ const WithdrawSection = ({ pool, index, sharesBalance }) => {
     const outputs = [
       {
         name: pool.name,
-        symbol: pool.token,
-        address: pool.tokenAddress,
-        decimals: pool.tokenDecimals,
+        symbol: pool.lpToken.symbol,
+        address: pool.lpToken.contract,
+        decimals: pool.lpToken.decimals,
+        logoURI: pool.logo,
       },
     ];
 
@@ -88,11 +89,11 @@ const WithdrawSection = ({ pool, index, sharesBalance }) => {
 
     return outputs;
   }, [
-    pool.assets,
+    pool.logo,
     pool.name,
-    pool.token,
-    pool.tokenAddress,
-    pool.tokenDecimals,
+    pool.lpToken.symbol,
+    pool.lpToken.contract,
+    pool.lpToken.decimals,
     pool.zap,
   ]);
 
@@ -116,7 +117,7 @@ const WithdrawSection = ({ pool, index, sharesBalance }) => {
     if (fetchWithdrawPending[index]) return;
     if (fetchZapEstimatePending[pool.tokenAddress]) return;
     if (pool.zap) {
-      fetchPairReverves({ web3, pairToken: tokens[pool.token] });
+      fetchPairReverves({ web3, pairToken: balances[pool.lpToken.symbol] });
     }
   }, [pool, new Date().getMinutes()]);
 
@@ -130,15 +131,15 @@ const WithdrawSection = ({ pool, index, sharesBalance }) => {
         routerAddress: pool.zap.ammRouter,
         swapInput: withdrawSettings.swapInput,
         swapOutput: withdrawSettings.swapOutput,
-        pairToken: tokens[pool.token],
+        pairToken: balances[pool.lpToken.symbol],
         pairTokenAmount: convertAmountToRawNumber(
           withdrawSettings.amount,
-          tokens[pool.token].decimals
+          balances[pool.lpToken.symbol].decimals
         ),
       });
     }
   }, [
-    tokens[pool.token].reserves,
+    balances[pool.lpToken.symbol].reserves,
     withdrawSettings.amount,
     withdrawSettings.outputIndex,
   ]);
@@ -153,7 +154,7 @@ const WithdrawSection = ({ pool, index, sharesBalance }) => {
       : undefined;
     const swapOutput = isSwap ? withdrawOutputs[outputIndex] : undefined;
     const allowance = new BigNumber(
-      tokens[pool.earnedToken].allowance[spender]
+      balances[pool.rewardToken.symbol].allowance[spender]
     );
 
     setWithdrawSettings((prevState) => ({
@@ -226,21 +227,23 @@ const WithdrawSection = ({ pool, index, sharesBalance }) => {
 
   useEffect(() => {
     const allowance = new BigNumber(
-      tokens[pool.earnedToken].allowance[withdrawSettings.withdrawAddress]
+      balances[pool.rewardToken.symbol].allowance[
+        withdrawSettings.withdrawAddress
+      ]
     );
     setWithdrawSettings((prevState) => ({
       ...prevState,
       isNeedApproval: prevState.isZap && allowance.isZero(),
     }));
-  }, [pool.earnedToken, tokens, withdrawSettings.withdrawAddress]);
+  }, [pool.rewardToken.symbol, balances, withdrawSettings.withdrawAddress]);
 
   const handleApproval = () => {
     fetchApproval({
       address,
       web3,
-      tokenAddress: pool.earnedTokenAddress,
+      tokenAddress: pool.rewardToken.contract,
       contractAddress: pool.zap.zapAddress,
-      tokenSymbol: pool.earnedToken,
+      tokenSymbol: pool.rewardToken.symbol,
     })
       .then(() =>
         enqueueSnackbar(t("Vault-ApprovalSuccess"), { variant: "success" })
@@ -292,7 +295,7 @@ const WithdrawSection = ({ pool, index, sharesBalance }) => {
         fetchZapWithdrawAndSwap(zapWithdrawArgs)
           .then(() => {
             enqueueSnackbar(t("Vault-WithdrawSuccess"), { variant: "success" });
-            fetchBalances({ address, web3, tokens });
+            fetchBalances({ address, web3, balances });
           })
           .catch((error) =>
             enqueueSnackbar(t("Vault-WithdrawError", { error }), {
@@ -310,7 +313,7 @@ const WithdrawSection = ({ pool, index, sharesBalance }) => {
         fetchZapWithdrawAndRemoveLiquidity(zapWithdrawArgs)
           .then(() => {
             enqueueSnackbar(t("Vault-WithdrawSuccess"), { variant: "success" });
-            fetchBalances({ address, web3, tokens });
+            fetchBalances({ address, web3, balances });
           })
           .catch((error) =>
             enqueueSnackbar(t("Vault-WithdrawError", { error }), {
@@ -331,7 +334,7 @@ const WithdrawSection = ({ pool, index, sharesBalance }) => {
         fetchWithdraw(vaultWithdrawArgs)
           .then(() => {
             enqueueSnackbar(t("Vault-WithdrawSuccess"), { variant: "success" });
-            fetchBalances({ address, web3, tokens });
+            fetchBalances({ address, web3, balances });
           })
           .catch((error) =>
             enqueueSnackbar(t("Vault-WithdrawError", { error }), {
@@ -342,7 +345,7 @@ const WithdrawSection = ({ pool, index, sharesBalance }) => {
         fetchWithdrawBnb(vaultWithdrawArgs)
           .then(() => {
             enqueueSnackbar(t("Vault-WithdrawSuccess"), { variant: "success" });
-            fetchBalances({ address, web3, tokens });
+            fetchBalances({ address, web3, balances });
           })
           .catch((error) =>
             enqueueSnackbar(t("Vault-WithdrawError", { error }), {
@@ -365,9 +368,9 @@ const WithdrawSection = ({ pool, index, sharesBalance }) => {
         <a onClick={handleMax} className={classes.balanceMax}>
           {byDecimals(
             sharesBalance.multipliedBy(new BigNumber(pool.pricePerFullShare)),
-            pool.tokenDecimals
+            pool.lpToken.decimals
           ).toFormat(8)}{" "}
-          {pool.token}
+          {pool.lpToken.symbol}
         </a>
       </div>
       <FormControl fullWidth variant="outlined">
@@ -404,7 +407,7 @@ const WithdrawSection = ({ pool, index, sharesBalance }) => {
       <div className={classes.showDetailButtonCon}>
         {pool.refund === true ? (
           <RefundButtons
-            tokenAddress={pool.earnedTokenAddress}
+            tokenAddress={pool.rewardToken.contract}
             refundAddress={pool.refundContractAddress}
             index={index}
           />
@@ -415,9 +418,9 @@ const WithdrawSection = ({ pool, index, sharesBalance }) => {
                 <Button
                   className={`${classes.showDetailButton} ${classes.showDetailButtonContained}`}
                   onClick={handleApproval}
-                  disabled={fetchApprovalPending[pool.earnedToken]}
+                  disabled={fetchApprovalPending[pool.rewardToken.symbol]}
                 >
-                  {fetchApprovalPending[pool.earnedToken]
+                  {fetchApprovalPending[pool.rewardToken.symbol]
                     ? `${t("Vault-Approving")}`
                     : `${t("Vault-ApproveButton")}`}
                 </Button>
@@ -461,14 +464,14 @@ const WithdrawSection = ({ pool, index, sharesBalance }) => {
               <ol>
                 <li>
                   {t("Vault-WithdrawScenarioRedeem", {
-                    mooToken: pool.earnedToken,
-                    poolToken: pool.token,
+                    mooToken: pool.rewardToken.symbol,
+                    poolToken: pool.lpToken.symbol,
                   })}
                 </li>
                 {withdrawSettings.isZap && (
                   <li>
                     {t("Vault-WithdrawScenarioRemoveLiquidity", {
-                      poolToken: pool.token,
+                      poolToken: pool.lpToken.symbol,
                       tokenA: pool.assets[0],
                       tokenB: pool.assets[1],
                     })}

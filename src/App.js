@@ -220,7 +220,7 @@ function App() {
             </Button>
 
             <Grid container className={classes.container}>
-              <VisiblePools pools={pools} />
+              <VisiblePools pools={pools} balances={balances} />
             </Grid>
           </SnackbarProvider>
         </ThemeProvider>

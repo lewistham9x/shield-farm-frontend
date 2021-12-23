@@ -102,7 +102,12 @@ export function updatePool(data, addLoadingPool, removeLoadingPool) {
 
           for (const pool of pools) {
             if (pool.id === res.data.id && pool.farm === res.data.farm) {
-              newPools.push(res.data);
+              const newPool = {
+                ...pool,
+                ...res.data,
+              };
+              console.log("Replaced pool to", newPool);
+              newPools.push(newPool);
             } else {
               newPools.push(pool);
             }

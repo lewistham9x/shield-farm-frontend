@@ -33,7 +33,7 @@ const styles = (theme) => ({
 
 const useStyles = makeStyles(styles);
 
-const VisiblePools = ({ pools }) => {
+const VisiblePools = ({ pools, balances }) => {
   const classes = useStyles();
   const { filteredPools, toggleFilter, filters } = useFilteredPools(pools);
   const { poolsByPlatform, platform, setPlatform } =
@@ -109,7 +109,7 @@ const VisiblePools = ({ pools }) => {
             <Pool
               pool={pool}
               pools={pools}
-              // tokens={tokens}
+              balances={balances}
               // apy={pool.apr || { totalApy: 0 }}
               key={pool.farm + pool.id}
               // fetchBalancesDone={fetchBalancesDone}

@@ -33,7 +33,7 @@ const useStyles = makeStyles(styles);
 const Pool = ({
   pools,
   pool,
-  // tokens,
+  balances,
   // apy,
   // fetchBalancesDone,
   fetchApysDone,
@@ -48,16 +48,24 @@ const Pool = ({
   const [isOpen, setIsOpen] = useState(false);
   const toggleCard = useCallback(() => setIsOpen(!isOpen), [isOpen]);
   // const { subscribe } = useLaunchpoolSubscriptions();
-  // const balanceSingle = byDecimals(
-  //   tokens[pool.token].tokenBalance,
-  //   pool.tokenDecimals
-  // );
-  // const sharesBalance = tokens[pool.earnedToken].launchpoolTokenBalance
-  //   ? new BigNumber.sum(
-  //       tokens[pool.earnedToken].launchpoolTokenBalance,
-  //       tokens[pool.earnedToken].tokenBalance
-  //     )
-  //   : new BigNumber(tokens[pool.earnedToken].tokenBalance);
+
+  var sharesBalance = new BigNumber(0);
+  var balanceSingle = new BigNumber(0);
+
+  if (balances[pool.lpToken.symbol]) {
+    balanceSingle = byDecimals(
+      balances[pool.lpToken.symbol].tokenBalance,
+      pool.lpToken.decimals
+    );
+  }
+  if (balances[pool.rewardToken.symbol]) {
+    sharesBalance = balances[pool.rewardToken.symbol].launchpoolTokenBalance
+      ? new BigNumber.sum(
+          balances[pool.rewardToken.symbol].launchpoolTokenBalance,
+          balances[pool.rewardToken.symbol].tokenBalance
+        )
+      : new BigNumber(balances[pool.rewardToken.symbol].tokenBalance);
+  }
   // const launchpoolId = useSelector(
   //   (state) => state.vault.vaultLaunchpool[pool.id]
   // );
@@ -106,7 +114,11 @@ const Pool = ({
         />
         <Divider variant="middle" className={classes.divider} />
         <AccordionDetails style={{ justifyContent: "space-between" }}>
-          <PoolActions pool={pool} balanceSingle={0} sharesBalance={0} />
+          <PoolActions
+            pool={pool}
+            balanceSingle={balanceSingle}
+            sharesBalance={sharesBalance}
+          />
         </AccordionDetails>
       </Accordion>
     </Grid>
