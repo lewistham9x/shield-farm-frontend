@@ -52,30 +52,30 @@ const styles = (theme) => ({
   },
   itemTitle: {
     [theme.breakpoints.up("sm")]: {
-      flexBasis: "50%",
-      maxWidth: "50%",
-    },
-    [theme.breakpoints.up("md")]: {
-      flexBasis: "37%",
-      maxWidth: "37%",
-    },
-    [theme.breakpoints.up("lg")]: {
-      flexBasis: "30%",
-      maxWidth: "30%",
-    },
-  },
-  itemBalances: {
-    [theme.breakpoints.up("sm")]: {
       flexBasis: "40%",
       maxWidth: "40%",
     },
     [theme.breakpoints.up("md")]: {
+      flexBasis: "27%",
+      maxWidth: "27%",
+    },
+    [theme.breakpoints.up("lg")]: {
       flexBasis: "20%",
       maxWidth: "20%",
     },
+  },
+  itemBalances: {
+    [theme.breakpoints.up("sm")]: {
+      flexBasis: "25%",
+      maxWidth: "25%",
+    },
+    [theme.breakpoints.up("md")]: {
+      flexBasis: "15%",
+      maxWidth: "15%",
+    },
     [theme.breakpoints.up("lg")]: {
-      flexBasis: "26%",
-      maxWidth: "26%",
+      flexBasis: "18%",
+      maxWidth: "18%",
     },
   },
   itemStats: {
@@ -199,11 +199,6 @@ const PoolSummary = ({
       onClick={onSummaryClick}
     >
       <Grid container alignItems="center" style={{ paddingTop: "20px" }}>
-        {/* {vaultStateTitle} */}
-        {/* <PoolBoosts
-          poolName={pool.name}
-          earnedTokenAddress={pool.earnedTokenAddress}
-        /> */}
         <Grid item xs={12} className={`${classes.item} ${classes.itemTitle}`}>
           <PoolTitle
             // name={pool.name}
@@ -230,7 +225,7 @@ const PoolSummary = ({
             className={classes.itemInner}
           />
         </Grid>
-        {/* <Grid item xs={6} className={`${classes.item} ${classes.itemBalances}`}>
+        <Grid item xs={6} className={`${classes.item} ${classes.itemBalances}`}>
           <LabeledStat
             value={formatDecimals(deposited)}
             subvalue={depositedUsd}
@@ -238,7 +233,7 @@ const PoolSummary = ({
             // isLoading={!fetchBalancesDone}
             className={classes.itemInner}
           />
-        </Grid> */}
+        </Grid>
         <ApyStats
           apy={{ totalApy: pool.apr / 100 }}
           // launchpoolApr={launchpoolApr}
@@ -252,7 +247,7 @@ const PoolSummary = ({
         />
         <Grid item xs={4} className={`${classes.item} ${classes.itemStats}`}>
           <LabeledStat
-            value={formatTvl(pool.totalStaked, pool.oraclePrice)}
+            value={formatTvl(pool.totalStaked)}
             label={"TVL"}
             isLoading={
               loadingPools.filter(

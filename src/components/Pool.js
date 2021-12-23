@@ -8,7 +8,7 @@ import PoolSummary from "./PoolSummary";
 
 import { byDecimals } from "../helpers/bignumber";
 import { useSelector } from "react-redux";
-// import PoolActions from "../PoolActions/PoolActions";
+import PoolActions from "./PoolActions";
 import AccordionDetails from "@material-ui/core/AccordionActions";
 // import { useLaunchpoolSubscriptions } from "../../../stake/redux/hooks";
 
@@ -106,11 +106,7 @@ const Pool = ({
         />
         <Divider variant="middle" className={classes.divider} />
         <AccordionDetails style={{ justifyContent: "space-between" }}>
-          {/* <PoolActions
-            pool={pool}
-            balanceSingle={balanceSingle}
-            sharesBalance={sharesBalance}
-          /> */}
+          <PoolActions pool={pool} balanceSingle={0} sharesBalance={0} />
         </AccordionDetails>
       </Accordion>
     </Grid>

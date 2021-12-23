@@ -19,22 +19,54 @@ export function fetchApys() {
     return new Promise((resolve, reject) => {
       const doRequest = axios.get(`https://shieldapi.miim.club/pools/cached`);
 
-      doRequest.then(
-        (res) => {
-          dispatch({
-            type: VAULT_FETCH_APYS_SUCCESS,
-            data: res.data,
-          });
-          resolve(res);
-        },
-        (err) => {
-          dispatch({
-            type: VAULT_FETCH_APYS_FAILURE,
-            data: { error: err },
-          });
-          reject(err);
-        }
-      );
+      doRequest.then((res) => {
+        const doRequestTokens = axios.get(`https://shieldapi.miim.club/tokens`);
+
+        // add token's data to pools
+
+        doRequestTokens.then(
+          (resTokens) => {
+            const pools = res.data;
+            const tokens = resTokens.data;
+            const poolsWithTokens = pools
+              .map((pool) => {
+                const rewardToken = tokens[pool.nativeToken];
+                const lpToken = tokens[pool.lpToken];
+
+                if (lpToken && rewardToken) {
+                  return {
+                    // rewardTokenContract: rewardToken.contract,
+                    // rewardTokenPrice: rewardToken.price,
+                    // rewardTokenChainName: rewardToken.chainName,
+                    // rewardTokenName: rewardToken.name,
+                    // rewardTokenSymbol: rewardToken.symbol,
+                    // rewardTokenDecimals: rewardToken.decimals,
+                    ...pool,
+                    rewardToken: rewardToken,
+                    lpToken: lpToken,
+                  };
+                } else {
+                  return null;
+                }
+              })
+              .filter((pool) => pool !== null);
+
+            console.log("poolsWithTokens", poolsWithTokens);
+            dispatch({
+              type: VAULT_FETCH_APYS_SUCCESS,
+              data: poolsWithTokens,
+            });
+            resolve(res);
+          },
+          (err) => {
+            dispatch({
+              type: VAULT_FETCH_APYS_FAILURE,
+              data: { error: err },
+            });
+            reject(err);
+          }
+        );
+      });
     });
   };
 }
@@ -100,7 +132,7 @@ export function useFetchApys() {
 
   const { pools, fetchApysPending, fetchApysDone } = useSelector(
     (state) => ({
-      pools: state.pools,
+      pools: state.pool.pools,
     }),
     shallowEqual
   );
@@ -122,7 +154,7 @@ export function useUpdatePool() {
 
   const { pool, updatePoolPending, updatePoolDone } = useSelector(
     (state) => ({
-      pool: state.pool,
+      pool: state.pool.pool,
       updatePoolPending: state.updatePoolPending,
       updatePoolDone: state.updatePoolDone,
     }),

@@ -3,7 +3,6 @@ import thunk from "redux-thunk";
 import { routerMiddleware } from "connected-react-router";
 import history from "./history";
 import rootReducer from "./rootReducer";
-import poolReducer from "./reducer";
 
 const router = routerMiddleware(history);
 
@@ -21,7 +20,7 @@ if (process.env.NODE_ENV === "development") {
 
 function configureStore(initialState) {
   const store = createStore(
-    poolReducer,
+    rootReducer,
     initialState,
     compose(applyMiddleware(...middlewares), devToolsExtension)
   );
