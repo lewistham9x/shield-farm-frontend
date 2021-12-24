@@ -58,7 +58,7 @@ const WithdrawSection = ({ pool, index, sharesBalance }) => {
 
   const sharesDecimals = pool.tokenDecimals;
   const sharesByDecimals = byDecimals(sharesBalance, sharesDecimals);
-  const underliyngBalance = sharesByDecimals
+  const underlyingBalance = sharesByDecimals
     .multipliedBy(pool.pricePerFullShare)
     .decimalPlaces(pool.tokenDecimals, BigNumber.ROUND_DOWN);
 
@@ -180,14 +180,14 @@ const WithdrawSection = ({ pool, index, sharesBalance }) => {
     let amount = new BigNumber(0);
     let input = new BigNumber(0);
     if (sliderInt > 0 && sliderInt < 99) {
-      amount = underliyngBalance
+      amount = underlyingBalance
         .times(sliderInt)
         .div(100)
         .decimalPlaces(pool.tokenDecimals, BigNumber.ROUND_DOWN);
       input = amount.decimalPlaces(8, BigNumber.ROUND_DOWN).toFormat();
     }
     if (sliderInt >= 99) {
-      amount = underliyngBalance;
+      amount = underlyingBalance;
       sliderInt = 100;
       input = amount.toFormat();
     }
@@ -211,11 +211,11 @@ const WithdrawSection = ({ pool, index, sharesBalance }) => {
     let amount = new BigNumber(input);
 
     if (amount.isNaN()) amount = new BigNumber(0);
-    if (amount.isGreaterThan(underliyngBalance)) amount = underliyngBalance;
+    if (amount.isGreaterThan(underlyingBalance)) amount = underlyingBalance;
 
-    const sliderInt = underliyngBalance.isZero()
+    const sliderInt = underlyingBalance.isZero()
       ? 0
-      : amount.times(100).dividedToIntegerBy(underliyngBalance).toNumber();
+      : amount.times(100).dividedToIntegerBy(underlyingBalance).toNumber();
 
     setWithdrawSettings((prevState) => ({
       ...prevState,
@@ -269,8 +269,8 @@ const WithdrawSection = ({ pool, index, sharesBalance }) => {
     const isAll = true;
     setWithdrawSettings((prevState) => ({
       ...prevState,
-      amount: underliyngBalance,
-      input: underliyngBalance.toFormat(),
+      amount: underlyingBalance,
+      input: underlyingBalance.toFormat(),
       slider: 100,
     }));
     withdraw(convertAmountToRawNumber(sharesByDecimals, sharesDecimals), isAll);

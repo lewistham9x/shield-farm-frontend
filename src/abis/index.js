@@ -36,6 +36,7 @@ export {
   uniswapV2PairABI,
   uniswapV2RouterABI,
   launchPoolABI,
+  masterChefABI,
 } from "./abi";
 // export { bscStakePools } from './stake/bsc_stake';
 // export { hecoStakePools } from './stake/heco_stake';

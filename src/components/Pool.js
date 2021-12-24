@@ -49,8 +49,8 @@ const Pool = ({
   const toggleCard = useCallback(() => setIsOpen(!isOpen), [isOpen]);
   // const { subscribe } = useLaunchpoolSubscriptions();
 
-  var sharesBalance = new BigNumber(0);
-  var balanceSingle = new BigNumber(0);
+  var sharesBalance = new BigNumber(0); //how much user can withdraw
+  var balanceSingle = new BigNumber(0); //how much user can deposit
 
   if (balances[pool.lpToken.symbol]) {
     balanceSingle = byDecimals(
@@ -58,7 +58,16 @@ const Pool = ({
       pool.lpToken.decimals
     );
   }
+
+  console.log("balances", balances);
+  console.log("pool.rewardsymbol", pool.rewardToken.symbol);
   if (balances[pool.rewardToken.symbol]) {
+    var launchpoolTokenBalance =
+      balances[pool.rewardToken.symbol].launchpoolTokenBalance;
+
+    if (launchpoolTokenBalance && launchpoolTokenBalance != 0) {
+      console.log("launchPoolTokenBalance", launchpoolTokenBalance);
+    }
     sharesBalance = balances[pool.rewardToken.symbol].launchpoolTokenBalance
       ? new BigNumber.sum(
           balances[pool.rewardToken.symbol].launchpoolTokenBalance,

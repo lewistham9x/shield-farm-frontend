@@ -17,7 +17,8 @@ export function fetchApys() {
       type: VAULT_FETCH_APYS_BEGIN,
     });
     return new Promise((resolve, reject) => {
-      const doRequest = axios.get(`https://shieldapi.miim.club/pools/cached`);
+      // const doRequest = axios.get(`https://shieldapi.miim.club/pools/cached`);
+      const doRequest = axios.get(`http://localhost:3001/pools/cached/MATIC`);
 
       doRequest.then((res) => {
         const doRequestTokens = axios.get(`https://shieldapi.miim.club/tokens`);

@@ -138,6 +138,7 @@ const PoolDetails = ({ vaultId }) => {
     balanceSingle > 0 && fetchVaultsDataDone
       ? formatTvl(balanceSingle, pool.oraclePrice)
       : "";
+
   const deposited = byDecimals(
     sharesBalance.multipliedBy(new BigNumber(pool.pricePerFullShare)),
     pool.tokenDecimals

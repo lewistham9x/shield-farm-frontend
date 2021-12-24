@@ -48,6 +48,7 @@ function App() {
     useConnectWallet();
   const { disconnectWallet } = useDisconnectWallet();
   const [web3Modal, setModal] = useState(null);
+  const [firstLoad, setFirstLoad] = useState(true);
 
   // const { isNightMode, setNightMode } = useNightMode();
   const isNightMode = false;
@@ -70,8 +71,6 @@ function App() {
   const canvasRef = useRef(null);
 
   const dispatch = useDispatch();
-
-  var firstLoad = true;
 
   useEffect(() => {
     if (!connected) {
@@ -136,8 +135,9 @@ function App() {
   // retrieve all token in pool and dispatch them to the store
   useEffect(() => {
     if (pools.length > 0 && firstLoad) {
-      firstLoad = false;
+      setFirstLoad(false);
       var balances = {};
+      console.log("Loading again");
 
       pools.forEach(
         (
@@ -169,6 +169,7 @@ function App() {
               ...balances[token]?.allowance,
               [earnContractAddress]: tokenAddress ? 0 : Infinity,
             },
+            chainName: lpToken.chainName,
           };
           balances[earnedToken] = {
             symbol: earnedToken,
@@ -178,6 +179,7 @@ function App() {
             allowance: {
               [earnContractAddress]: 0,
             },
+            chainName: rewardToken.chainName,
           };
         }
       );
