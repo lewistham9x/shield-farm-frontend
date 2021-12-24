@@ -114,10 +114,10 @@ const PoolSummary = ({
   pool,
   // launchpool,
   toggleCard,
-  // balanceSingle,
-  // sharesBalance,
+  balanceSingle,
+  sharesBalance,
   // apy,
-  // fetchBalancesDone,
+  fetchBalancesDone,
   updatePool,
   loadingPools,
   addLoadingPool,
@@ -127,10 +127,6 @@ const PoolSummary = ({
   // multipleLaunchpools = false,
 }) => {
   const classes = useStyles();
-  const balanceSingle = 0;
-  const balanceUsd = 0;
-  const deposited = 0;
-  const depositedUsd = 0;
 
   // const launchpoolApr = usePoolApr(launchpool ? launchpool.id : null);
   // const vaultStateTitle = useMemo(() => {
@@ -165,18 +161,20 @@ const PoolSummary = ({
   //   );
   // }, [pool, launchpool, t]);
 
-  // const balanceUsd =
-  //   balanceSingle > 0 && fetchVaultsDataDone
-  //     ? formatTvl(balanceSingle, pool.oraclePrice)
-  //     : "";
-  // const deposited = byDecimals(
-  //   sharesBalance.multipliedBy(new BigNumber(pool.pricePerFullShare)),
-  //   pool.tokenDecimals
-  // );
-  // const depositedUsd =
-  //   deposited > 0 && fetchVaultsDataDone
-  //     ? formatTvl(deposited, pool.oraclePrice)
-  //     : "";
+  const balanceUsd =
+    balanceSingle > 0 && fetchBalancesDone
+      ? formatTvl(balanceSingle, pool.oraclePrice)
+      : "";
+  console.log("shareBalance", sharesBalance);
+
+  const deposited = byDecimals(
+    sharesBalance.multipliedBy(new BigNumber(pool.pricePerFullShare)),
+    pool.rewardToken.decimals
+  );
+  const depositedUsd =
+    deposited > 0 && fetchBalancesDone
+      ? formatTvl(deposited, pool.oraclePrice)
+      : "";
 
   const onRefreshClick = (e) => {
     e.preventDefault();

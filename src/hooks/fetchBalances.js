@@ -127,7 +127,7 @@ export function fetchBalances({ address, web3, balances, pools }) {
 
           launchPoolBalanceCalls.push({
             balance: multicallContract.methods.userInfo(launchpool.id, address),
-            symbol: launchpool.lpToken.symbol,
+            symbol: launchpool.rewardToken.symbol,
           });
         }
       });
@@ -165,21 +165,21 @@ export function fetchBalances({ address, web3, balances, pools }) {
 
               const newBalance = launchPoolBalanceResult.balance || [0];
               const amount = newBalance[0];
-              // divide by decimals
-              const amountInDecimals = byDecimals(
-                amount || 0,
-                balances[launchPoolBalanceResult.symbol].decimals
-              );
+              // // divide by decimals
+              // const amountInDecimals = byDecimals(
+              //   amount || 0,
+              //   balances[launchPoolBalanceResult.symbol].decimals
+              // );
 
               newTokens[launchPoolBalanceResult.symbol] = {
                 ...newTokens[launchPoolBalanceResult.symbol],
                 launchpoolTokenBalance: new BigNumber.sum(
-                  amountInDecimals,
+                  amount,
                   previousBalance
                 ).toString(),
               };
 
-              console.log("amount:", amountInDecimals);
+              // console.log("amount:", amountInDecimals);
             });
 
             dispatch({

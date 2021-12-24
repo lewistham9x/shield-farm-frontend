@@ -45,6 +45,7 @@ export function fetchApys() {
                     ...pool,
                     rewardToken: rewardToken,
                     lpToken: lpToken,
+                    pricePerFullShare: 1,
                   };
                 } else {
                   return null;

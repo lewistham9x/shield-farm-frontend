@@ -56,11 +56,12 @@ const WithdrawSection = ({ pool, index, sharesBalance }) => {
     useFetchZapEstimate();
   const { balances, fetchBalances, fetchPairReverves } = useFetchBalances();
 
-  const sharesDecimals = pool.tokenDecimals;
+  const sharesDecimals = pool.rewardToken.decimals;
   const sharesByDecimals = byDecimals(sharesBalance, sharesDecimals);
+
   const underlyingBalance = sharesByDecimals
     .multipliedBy(pool.pricePerFullShare)
-    .decimalPlaces(pool.tokenDecimals, BigNumber.ROUND_DOWN);
+    .decimalPlaces(pool.rewardToken.decimals, BigNumber.ROUND_DOWN);
 
   const withdrawOutputs = useMemo(() => {
     const outputs = [
@@ -183,7 +184,7 @@ const WithdrawSection = ({ pool, index, sharesBalance }) => {
       amount = underlyingBalance
         .times(sliderInt)
         .div(100)
-        .decimalPlaces(pool.tokenDecimals, BigNumber.ROUND_DOWN);
+        .decimalPlaces(pool.rewardToken.decimals, BigNumber.ROUND_DOWN);
       input = amount.decimalPlaces(8, BigNumber.ROUND_DOWN).toFormat();
     }
     if (sliderInt >= 99) {

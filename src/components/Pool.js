@@ -35,7 +35,7 @@ const Pool = ({
   pool,
   balances,
   // apy,
-  // fetchBalancesDone,
+  fetchBalancesDone,
   fetchApysDone,
   updatePool,
   loadingPools,
@@ -59,22 +59,26 @@ const Pool = ({
     );
   }
 
-  console.log("balances", balances);
-  console.log("pool.rewardsymbol", pool.rewardToken.symbol);
-  if (balances[pool.rewardToken.symbol]) {
-    var launchpoolTokenBalance =
-      balances[pool.rewardToken.symbol].launchpoolTokenBalance;
+  // console.log("balances", balances);
+  // console.log("pool.rewardsymbol", pool.rewardToken.symbol);
+  // console.log(
+  //   "pool.rewardsymbol balancew",
+  //   balances[pool.rewardToken.symbol].launchpoolTokenBalance
+  // );
 
-    if (launchpoolTokenBalance && launchpoolTokenBalance != 0) {
-      console.log("launchPoolTokenBalance", launchpoolTokenBalance);
-    }
+  if (balances[pool.rewardToken.symbol]) {
     sharesBalance = balances[pool.rewardToken.symbol].launchpoolTokenBalance
       ? new BigNumber.sum(
           balances[pool.rewardToken.symbol].launchpoolTokenBalance,
           balances[pool.rewardToken.symbol].tokenBalance
         )
       : new BigNumber(balances[pool.rewardToken.symbol].tokenBalance);
+
+    console.log("sharesBalance", sharesBalance * 1);
+    console.log(pool.pricePerFullShare);
+    console.log(pool.rewardToken.decimals);
   }
+
   // const launchpoolId = useSelector(
   //   (state) => state.vault.vaultLaunchpool[pool.id]
   // );
@@ -118,6 +122,9 @@ const Pool = ({
           loadingPools={loadingPools}
           addLoadingPool={addLoadingPool}
           removeLoadingPool={removeLoadingPool}
+          fetchBalancesDone={fetchBalancesDone}
+          balanceSingle={balanceSingle}
+          sharesBalance={sharesBalance}
           // fetchApysDone={fetchApysDone}
           // multipleLaunchpools={multipleLaunchpools}
         />
