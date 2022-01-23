@@ -19,6 +19,7 @@ import ApyStats from "./ApyStats";
 // import { getPoolWarning } from "./PoolWarning/PoolWarning";
 
 import useStorage from "../hooks/useStorage";
+import { Button } from "@material-ui/core";
 
 const styles = (theme) => ({
   details: {
@@ -165,7 +166,7 @@ const PoolSummary = ({
     balanceSingle > 0 && fetchBalancesDone
       ? formatTvl(balanceSingle, pool.oraclePrice)
       : "";
-  console.log("shareBalance", sharesBalance);
+  // console.log("shareBalance", sharesBalance);
 
   const deposited = byDecimals(
     sharesBalance.multipliedBy(new BigNumber(pool.pricePerFullShare)),
@@ -185,7 +186,7 @@ const PoolSummary = ({
   const onSummaryClick = useCallback(
     (e) => {
       if (!e.target || !e.target.classList.contains("tooltip-toggle")) {
-        toggleCard();
+        // toggleCard(); temporarily disabled until feature is created
       }
     },
     [toggleCard]
@@ -218,26 +219,36 @@ const PoolSummary = ({
             // assets={pool.assets}
             // multipleLaunchpools={multipleLaunchpools}
             name={pool.name}
+            created={pool.date_created}
             // launchpool={pool.farm}
           />
         </Grid>
         <Grid item xs={6} className={`${classes.item} ${classes.itemBalances}`}>
-          <LabeledStat
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => window.open(pool.website, "_blank")}
+          >
+            Website
+          </Button>
+        </Grid>
+        {/* <Grid item xs={6} className={`${classes.item} ${classes.itemBalances}`}> */}
+        {/* <LabeledStat
             value={formatDecimals(balanceSingle)}
             subvalue={balanceUsd}
             label={"Wallet"}
             // isLoading={!fetchBalancesDone}
             className={classes.itemInner}
-          />
-        </Grid>
+          /> */}
+        {/* </Grid> */}
         <Grid item xs={6} className={`${classes.item} ${classes.itemBalances}`}>
-          <LabeledStat
+          {/* <LabeledStat
             value={formatDecimals(deposited)}
             subvalue={depositedUsd}
             label={"Deposited"}
             // isLoading={!fetchBalancesDone}
             className={classes.itemInner}
-          />
+          /> */}
         </Grid>
         <ApyStats
           apy={{ totalApy: pool.apr / 100 }}

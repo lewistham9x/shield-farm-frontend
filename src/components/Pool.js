@@ -66,10 +66,17 @@ const Pool = ({
   //   balances[pool.rewardToken.symbol].launchpoolTokenBalance
   // );
 
-  if (balances[pool.rewardToken.symbol]) {
-    sharesBalance = balances[pool.rewardToken.symbol].launchpoolTokenBalance
+  console.log("fetching balances");
+  if (
+    balances[pool.rewardToken.symbol] &&
+    balances[pool.rewardToken.symbol].pools
+  ) {
+    sharesBalance = balances[pool.rewardToken.symbol].pools[pool.id]
+      .launchpoolTokenBalance
       ? new BigNumber.sum(
-          balances[pool.rewardToken.symbol].launchpoolTokenBalance,
+          balances[pool.rewardToken.symbol].pools[
+            pool.id
+          ].launchpoolTokenBalance,
           balances[pool.rewardToken.symbol].tokenBalance
         )
       : new BigNumber(balances[pool.rewardToken.symbol].tokenBalance);

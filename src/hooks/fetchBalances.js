@@ -61,6 +61,13 @@ const CHAIN_TYPES = {
     EXPLORER_API: "https://api.ftmscan.com/api",
     KEY: process.env.CROSCAN_API_KEY,
   },
+  ONE: {
+    ID: 1666600000,
+    NAME: "harmony",
+    RPC: "https://api.harmony.one",
+    EXPLORER_API: "https://ctrver.t.hmny.io",
+    KEY: process.env.HARMONY_API_KEY,
+  },
 };
 
 export function fetchBalances({ address, web3, balances, pools }) {
@@ -123,13 +130,14 @@ export function fetchBalances({ address, web3, balances, pools }) {
             launchpool.masterChef
           );
 
-          multicallContract.setProvider(CHAIN_TYPES[launchpool.chainName].RPC);
-
           launchPoolBalanceCalls.push({
-            balance: multicallContract.methods.userInfo(launchpool.id, address),
+            balance: multicallContract.methods.userInfo(lpid, address),
             symbol: launchpool.rewardToken.symbol,
+            id: lpid,
           });
         }
+        console.log("rewardsymbol", launchpool.rewardToken.symbol);
+        console.log("id", launchpool.id);
       });
 
       multicall
@@ -156,8 +164,6 @@ export function fetchBalances({ address, web3, balances, pools }) {
               };
             });
 
-            console.log("allowanceResults", allowanceResults);
-
             launchpoolBalanceResults.forEach((launchPoolBalanceResult) => {
               const previousBalance =
                 newTokens[launchPoolBalanceResult.symbol]
@@ -165,22 +171,29 @@ export function fetchBalances({ address, web3, balances, pools }) {
 
               const newBalance = launchPoolBalanceResult.balance || [0];
               const amount = newBalance[0];
-              // // divide by decimals
-              // const amountInDecimals = byDecimals(
-              //   amount || 0,
-              //   balances[launchPoolBalanceResult.symbol].decimals
-              // );
 
-              newTokens[launchPoolBalanceResult.symbol] = {
-                ...newTokens[launchPoolBalanceResult.symbol],
-                launchpoolTokenBalance: new BigNumber.sum(
-                  amount,
-                  previousBalance
-                ).toString(),
-              };
+              if (newTokens[launchPoolBalanceResult.symbol].pools) {
+                newTokens[launchPoolBalanceResult.symbol] = {
+                  ...newTokens[launchPoolBalanceResult.symbol],
+                  pools: {
+                    ...newTokens[launchPoolBalanceResult.symbol].pools,
+                  },
+                };
+              } else {
+                newTokens[launchPoolBalanceResult.symbol] = {
+                  ...newTokens[launchPoolBalanceResult.symbol],
+                  pools: {},
+                };
+              }
+
+              newTokens[launchPoolBalanceResult.symbol].pools[
+                launchPoolBalanceResult.id
+              ] = new BigNumber.sum(amount, previousBalance).toString();
 
               // console.log("amount:", amountInDecimals);
             });
+
+            console.log("launchpoolBalanceResults", launchpoolBalanceResults);
 
             dispatch({
               type: VAULT_FETCH_BALANCES_SUCCESS,

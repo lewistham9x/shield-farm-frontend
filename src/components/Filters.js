@@ -252,6 +252,9 @@ const Filters = ({
             <MenuItem key={"FTM"} value={"FTM"}>
               {"Fantom"}
             </MenuItem>
+            <MenuItem key={"ONE"} value={"ONE"}>
+              {"Harmony"}
+            </MenuItem>
           </Select>
         </FormControl>
       </Grid>
@@ -293,6 +296,8 @@ const Filters = ({
             <MenuItem value={"default"}>Default</MenuItem>
             <MenuItem value={"apr"}>APR</MenuItem>
             <MenuItem value={"tvl"}>TVL</MenuItem>
+            <MenuItem value={"apr-tvl"}>APR-TVL</MenuItem>
+            <MenuItem value={"tvl-apr"}>TVL-APR</MenuItem>
           </Select>
         </FormControl>
       </Grid>

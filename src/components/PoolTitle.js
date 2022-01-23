@@ -7,6 +7,7 @@ import AvatarGroup from "@material-ui/lab/AvatarGroup";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import * as moment from "moment";
 // import { getSingleAssetSrc } from "../helpers/getSingleAssetSrc";
 
 const styles = (theme) => ({
@@ -113,6 +114,7 @@ const PoolTitle = ({
   // removeLiquidityUrl,
   // assets,
   // multipleLaunchpools = false,
+  created,
 }) => {
   const { chain } = useParams();
 
@@ -167,6 +169,9 @@ const PoolTitle = ({
         </Typography>
         <Typography className={classes.subtitle} variant="body2">
           {description}
+        </Typography>
+        <Typography className={classes.subtitle} variant="body2">
+          {moment.unix(created).format("MM/DD/YYYY")}
         </Typography>
         {/* <div style={{ display: "flex", marginTop: "6px" }}>
           {buyTokenUrl ? (

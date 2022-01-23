@@ -18,10 +18,11 @@ export function fetchApys() {
     });
     return new Promise((resolve, reject) => {
       // const doRequest = axios.get(`https://shieldapi.miim.club/pools/cached`);
-      const doRequest = axios.get(`http://localhost:3001/pools/cached/MATIC`);
+      const doRequest = axios.get(`http://localhost:3001/pools/cached`);
 
       doRequest.then((res) => {
-        const doRequestTokens = axios.get(`https://shieldapi.miim.club/tokens`);
+        const doRequestTokens = axios.get(`http://localhost:3001/tokens`);
+        // const doRequestTokens = axios.get(`https://shieldapi.miim.club/tokens`);
 
         // add token's data to pools
 
@@ -86,7 +87,8 @@ export function updatePool(data, addLoadingPool, removeLoadingPool) {
 
     return new Promise((resolve, reject) => {
       const doRequest = axios.get(
-        `https://shieldapi.miim.club/pools/${pool.farm}/${pool.id}`
+        `http://localhost:3001/pools/${pool.farm}/${pool.id}`
+        // `https://shieldapi.miim.club/pools/${pool.farm}/${pool.id}`
       );
 
       // console.log("pools", pools);

@@ -22,6 +22,12 @@ const useSortedPools = (pools, apys, tokens) => {
     case "tvl":
       sortedPools = handleTvl(pools);
       break;
+    case "apr-tvl":
+      sortedPools = handleAprTvl(pools, apys);
+      break;
+    case "tvl-apr":
+      sortedPools = handleTvlApr(pools, apys);
+      break;
     default:
       break;
   }
@@ -43,6 +49,24 @@ const handleTvl = (pools) => {
   return newPools;
 };
 
+const handleAprTvl = (pools) => {
+  const newPools = [...pools];
+  newPools.sort(function (a, b) {
+    return b.apr - a.apr || b.totalStaked - a.totalStaked;
+  });
+
+  console.log(newPools);
+  return newPools;
+};
+
+const handleTvlApr = (pools) => {
+  const newPools = [...pools];
+  newPools.sort(function (a, b) {
+    return b.totalStaked - a.totalStaked || b.apr - a.apr;
+  });
+  console.log(newPools);
+  return newPools;
+};
 // function showDecommissionedFirst(pools, tokens) {
 //   for (let i = 0; i < pools.length; i++) {
 //     // if ( EOL or REFUND ) AND (Deposited Balance > 0)
