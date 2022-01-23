@@ -33,6 +33,8 @@ import Avatar from "@material-ui/core/Avatar";
 import { VAULT_FETCH_BALANCES_SUCCESS } from "./helpers/constants.js";
 import { useDispatch } from "react-redux";
 
+import AddFarm from "./components/AddFarm";
+
 const FETCH_INTERVAL_MS = 15 * 1000;
 
 const themes = { light: null, dark: null };
@@ -67,6 +69,7 @@ function App() {
 
   const [shortAddress, setShortAddress] = useState("");
   const [dataUrl, setDataUrl] = useState(null);
+  const [show, setShow] = useState(false);
 
   const canvasRef = useRef(null);
 
@@ -96,7 +99,7 @@ function App() {
 
   useEffect(() => {
     if (web3Modal && (web3Modal.cachedProvider || window.ethereum)) {
-      connectWallet(web3Modal);
+      // connectWallet(web3Modal); disable until features are ready
     }
   }, [web3Modal, connectWallet]);
 
@@ -192,7 +195,8 @@ function App() {
       <StylesProvider injectFirst>
         <ThemeProvider theme={theme}>
           <SnackbarProvider>
-            <Button
+            <Button onClick={() => setShow(true)}>Add Farm</Button>
+            {/* <Button disabled until features are ready
               disableElevation
               className={classes.walletDisplay}
               onClick={
@@ -219,12 +223,13 @@ function App() {
                   {"Connect to Wallet"}
                 </>
               )}
-            </Button>
+            </Button> */}
 
             <Grid container className={classes.container}>
               <VisiblePools pools={pools} balances={balances} />
             </Grid>
           </SnackbarProvider>
+          <AddFarm show={show} handleClose={() => setShow(false)} />
         </ThemeProvider>
       </StylesProvider>
     </HashRouter>
