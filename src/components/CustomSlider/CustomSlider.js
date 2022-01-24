@@ -1,6 +1,6 @@
 import React from "react";
-import Slider from "@material-ui/core/Slider";
-import { makeStyles } from "@material-ui/core/styles";
+import Slider from "@mui/material/Slider";
+import makeStyles from '@mui/styles/makeStyles';
 import { secondaryColor, successColor } from "../../jss/material-kit-pro-react";
 
 const useStyles = makeStyles((theme) => ({

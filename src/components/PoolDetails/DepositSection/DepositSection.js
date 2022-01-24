@@ -1,14 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect, useMemo } from "react";
 import useDeepCompareEffect from "use-deep-compare-effect";
-import Grid from "@material-ui/core/Grid";
+import Grid from "@mui/material/Grid";
 import BigNumber from "bignumber.js";
 import { useTranslation } from "react-i18next";
-import { makeStyles } from "@material-ui/core/styles";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import makeStyles from '@mui/styles/makeStyles';
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import CircularProgress from "@mui/material/CircularProgress";
 import { useSnackbar } from "notistack";
 import CustomOutlinedInput from "../../CustomOutlinedInput/CustomOutlinedInput";
 import CustomSlider from "../../CustomSlider/CustomSlider";

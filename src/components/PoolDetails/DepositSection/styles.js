@@ -73,7 +73,7 @@ const styles = (theme) => ({
     fontSize: "14px",
     letterSpacing: "0",
     lineHeight: "8px",
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down('xl')]: {
       lineHeight: "16px",
     },
     fontWeight: "550",

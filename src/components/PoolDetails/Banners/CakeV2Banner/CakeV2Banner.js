@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import { useTranslation } from 'react-i18next';
 import styles from './styles';
 

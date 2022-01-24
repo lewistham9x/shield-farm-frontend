@@ -1,9 +1,9 @@
-import { fade } from '@material-ui/core';
+import { alpha } from '@mui/material';
 
 export default theme => ({
   box: {
     backgroundColor:
-      theme.palette.type === 'dark' ? fade('#fff', 0.05) : theme.palette.background.extra,
+      theme.palette.mode === 'dark' ? alpha('#fff', 0.05) : theme.palette.background.extra,
     marginBottom: 24,
     padding: '0 9px',
     display: 'flex',

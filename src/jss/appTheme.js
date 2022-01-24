@@ -1,9 +1,9 @@
-import { createTheme } from "@material-ui/core/styles";
+import { createTheme, adaptV4Theme } from "@mui/material/styles";
 
 const createThemeMode = (isNightMode) =>
-  createTheme({
+  createTheme(adaptV4Theme({
     palette: {
-      type: isNightMode ? "light" : "dark",
+      mode: isNightMode ? "light" : "dark",
       background: {
         default: isNightMode ? "#242332" : "#BBDEFB",
         paper: isNightMode ? "#606077" : "#C5CAE9",
@@ -51,6 +51,6 @@ const createThemeMode = (isNightMode) =>
         },
       },
     },
-  });
+  }));
 
 export default createThemeMode;

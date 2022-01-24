@@ -1,5 +1,5 @@
 # pull official base image
-FROM node:16
+FROM node:15
 
 # set working directory
 WORKDIR /app
@@ -10,8 +10,10 @@ ENV PATH /app/node_modules/.bin:$PATH
 # install app dependencies
 COPY package.json ./
 COPY package-lock.json ./
+RUN export NODE_OPTIONS=--max_old_space_size=8192
 RUN npm install
 RUN npm install react-scripts@3.4.1 -g
+# RUN npm i -D --save-exact mini-css-extract-plugin@2.4.6
 
 # add app
 COPY . ./

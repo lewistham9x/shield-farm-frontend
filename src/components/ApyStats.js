@@ -1,10 +1,10 @@
 import React, { memo } from "react";
-import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@mui/material/Grid";
+import makeStyles from '@mui/styles/makeStyles';
 import { formatApy } from "../helpers/format";
 import { isNaN } from "../helpers/bignumber";
 import LabeledStat from "./LabeledStat";
-import { Fade, Tooltip } from "@material-ui/core";
+import { Fade, Tooltip } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 const styles = (theme) => ({

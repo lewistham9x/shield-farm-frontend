@@ -87,8 +87,8 @@ export function updatePool(data, addLoadingPool, removeLoadingPool) {
 
     return new Promise((resolve, reject) => {
       const doRequest = axios.get(
-        `http://localhost:3001/pools/${pool.farm}/${pool.id}`
-        // `https://shieldapi.miim.club/pools/${pool.farm}/${pool.id}`
+        // `http://localhost:3001/pools/${pool.farm}/${pool.id}`
+        `https://shieldapi.miim.club/pools/${pool.farm}/${pool.id}`
       );
 
       // console.log("pools", pools);

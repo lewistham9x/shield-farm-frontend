@@ -2,11 +2,11 @@ import React, { memo } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import Avatar from "@material-ui/core/Avatar";
-import AvatarGroup from "@material-ui/lab/AvatarGroup";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
+import Avatar from "@mui/material/Avatar";
+import AvatarGroup from '@mui/material/AvatarGroup';
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import makeStyles from '@mui/styles/makeStyles';
 import * as moment from "moment";
 // import { getSingleAssetSrc } from "../helpers/getSingleAssetSrc";
 

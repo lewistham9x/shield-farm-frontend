@@ -1,11 +1,11 @@
 import React, { useCallback, useMemo, useState, useEffect } from "react";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import Grid from "@material-ui/core/Grid";
-import Refresh from "@material-ui/icons/Refresh";
-import IconButton from "@material-ui/core/IconButton";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import Grid from "@mui/material/Grid";
+import Refresh from "@mui/icons-material/Refresh";
+import IconButton from "@mui/material/IconButton";
 import { useTranslation } from "react-i18next";
 import BigNumber from "bignumber.js";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from "@mui/styles/makeStyles";
 import { formatTvl } from "../helpers/format";
 import { byDecimals } from "../helpers/bignumber";
 // import styles from "./styles";
@@ -19,7 +19,7 @@ import ApyStats from "./ApyStats";
 // import { getPoolWarning } from "./PoolWarning/PoolWarning";
 
 import useStorage from "../hooks/useStorage";
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 
 const styles = (theme) => ({
   details: {
@@ -225,8 +225,8 @@ const PoolSummary = ({
         </Grid>
         <Grid item xs={6} className={`${classes.item} ${classes.itemBalances}`}>
           <Button
-            variant="contained"
-            color="success"
+            variant="outlined"
+            color="secondary"
             onClick={() => window.open(pool.website, "_blank")}
           >
             Website
@@ -278,6 +278,7 @@ const PoolSummary = ({
             label="Update"
             className={classes.itemInner}
             onClick={onRefreshClick}
+            size="large"
           >
             <Refresh />
           </IconButton>

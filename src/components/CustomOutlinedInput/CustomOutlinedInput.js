@@ -1,6 +1,6 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
+import makeStyles from '@mui/styles/makeStyles';
+import OutlinedInput from '@mui/material/OutlinedInput';
 
 const useStyles = makeStyles(theme => ({
   showDetail: {

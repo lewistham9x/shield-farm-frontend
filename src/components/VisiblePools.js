@@ -1,7 +1,7 @@
 import React from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 
 import useFilteredPools from "../hooks/useFilteredPools";
 import usePoolsByPlatform from "../hooks/usePoolsByPlatform";
@@ -23,7 +23,7 @@ const styles = (theme) => ({
     fontSize: "20px",
     letterSpacing: "0",
     lineHeight: "8px",
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down('xl')]: {
       lineHeight: "16px",
     },
     fontWeight: "550",

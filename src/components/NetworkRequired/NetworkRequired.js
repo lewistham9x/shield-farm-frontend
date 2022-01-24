@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { useConnectWallet } from "../../hooks/connectWallet";
 import { getNetworkFriendlyName } from "../../helpers/getNetworkData";
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import styles from "./styles";
 import classnames from "classnames";
 import ValueLoader from "../ValueLoader";

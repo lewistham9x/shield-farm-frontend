@@ -6,15 +6,12 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import Grid from "@material-ui/core/Grid";
+import Grid from "@mui/material/Grid";
 import { Helmet } from "react-helmet";
 import { hot, setConfig } from "react-hot-loader";
 import { HashRouter, Route, Switch } from "react-router-dom";
-import {
-  makeStyles,
-  ThemeProvider,
-  StylesProvider,
-} from "@material-ui/core/styles";
+import { ThemeProvider, StyledEngineProvider } from "@mui/material/styles";
+import { StylesProvider, makeStyles } from "@mui/styles";
 import appStyle from "./jss/appStyle.js";
 import useNightMode from "./hooks/useNightMode";
 import createThemeMode from "./jss/appTheme";
@@ -29,7 +26,7 @@ import { renderIcon } from "@download/blockies";
 import { createWeb3Modal } from "./web3";
 
 import Button from "./components/Button";
-import Avatar from "@material-ui/core/Avatar";
+import Avatar from "@mui/material/Avatar";
 import { VAULT_FETCH_BALANCES_SUCCESS } from "./helpers/constants.js";
 import { useDispatch } from "react-redux";
 
@@ -193,44 +190,46 @@ function App() {
   return (
     <HashRouter>
       <StylesProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <SnackbarProvider>
-            <Button onClick={() => setShow(true)}>Add Farm</Button>
-            {/* <Button disabled until features are ready
-              disableElevation
-              className={classes.walletDisplay}
-              onClick={
-                connected ? disconnectWalletCallback : connectWalletCallback
-              }
-            >
-              {connected ? (
-                <>
-                  <canvas ref={canvasRef} style={{ display: "none" }} />
-                  <Avatar
-                    alt="address"
-                    src={dataUrl}
-                    style={{
-                      width: "24px",
-                      height: "24px",
-                      marginRight: "4px",
-                    }}
-                  />
-                  {shortAddress}
-                </>
-              ) : (
-                <>
-                  <i className={classes.icon + " far fa-question-circle"} />
-                  {"Connect to Wallet"}
-                </>
-              )}
-            </Button> */}
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <SnackbarProvider>
+              <Button onClick={() => setShow(true)}>Add Farm</Button>
+              {/* <Button disabled until features are ready
+                disableElevation
+                className={classes.walletDisplay}
+                onClick={
+                  connected ? disconnectWalletCallback : connectWalletCallback
+                }
+              >
+                {connected ? (
+                  <>
+                    <canvas ref={canvasRef} style={{ display: "none" }} />
+                    <Avatar
+                      alt="address"
+                      src={dataUrl}
+                      style={{
+                        width: "24px",
+                        height: "24px",
+                        marginRight: "4px",
+                      }}
+                    />
+                    {shortAddress}
+                  </>
+                ) : (
+                  <>
+                    <i className={classes.icon + " far fa-question-circle"} />
+                    {"Connect to Wallet"}
+                  </>
+                )}
+              </Button> */}
 
-            <Grid container className={classes.container}>
-              <VisiblePools pools={pools} balances={balances} />
-            </Grid>
-          </SnackbarProvider>
-          <AddFarm show={show} handleClose={() => setShow(false)} />
-        </ThemeProvider>
+              <Grid container className={classes.container}>
+                <VisiblePools pools={pools} balances={balances} />
+              </Grid>
+            </SnackbarProvider>
+            <AddFarm show={show} handleClose={() => setShow(false)} />
+          </ThemeProvider>
+        </StyledEngineProvider>
       </StylesProvider>
     </HashRouter>
   );

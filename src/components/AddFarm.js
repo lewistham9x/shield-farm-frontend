@@ -1,8 +1,15 @@
 import React, { memo, useCallback, useEffect, useState } from "react";
 import "./AddFarm.css";
 import AddFarmService from "../services/add-farm.service";
-import { IconButton } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
+import {
+  Button,
+  IconButton,
+  TextField,
+  Stack,
+  MenuItem,
+  Select,
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 const AddFarm = ({ handleClose, show, children }) => {
   const [farm, setFarm] = useState({});
 
@@ -15,45 +22,52 @@ const AddFarm = ({ handleClose, show, children }) => {
   return (
     <div className={showHideClassName}>
       <section className="modal-main">
-        <IconButton label="Update" onClick={handleClose}>
+        <IconButton label="Update" onClick={handleClose} size="large">
           <CloseIcon color="primary"></CloseIcon>
         </IconButton>
-        <form>
-          <label>
-            Farm Name:
-            <input
-              type="text"
-              name="name"
-              onChange={(e) => setFarm({ ...farm, name: e.target.value })}
-            />
-          </label>
-          <label>
-            Chain Name:
-            <input
-              type="text"
-              name="chainName"
+        <form className="form">
+          <Stack spacing={3}>
+            <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+              <TextField
+                fullWidth
+                label="Farm Name"
+                onChange={(e) => setFarm({ ...farm, name: e.target.value })}
+              />
+            </Stack>
+            <Select
+              label="Chain"
               onChange={(e) => setFarm({ ...farm, chainName: e.target.value })}
-            />
-          </label>
-          <label>
-            Master Chef Contract:
-            <input
-              type="text"
-              name="masterChef"
+            >
+              <MenuItem key={"BSC"} value={"BSC"}>
+                {"Binance Smart Chain"}
+              </MenuItem>
+              <MenuItem key={"AVAX"} value={"AVAX"}>
+                {"Avalanche"}
+              </MenuItem>
+              <MenuItem key={"MATIC"} value={"MATIC"}>
+                {"Polygon"}
+              </MenuItem>
+              <MenuItem key={"FTM"} value={"FTM"}>
+                {"Fantom"}
+              </MenuItem>
+              <MenuItem key={"ONE"} value={"ONE"}>
+                {"Harmony"}
+              </MenuItem>
+            </Select>
+            <TextField
+              fullWidth
+              label="MasterChef Contract"
               onChange={(e) => setFarm({ ...farm, masterChef: e.target.value })}
             />
-          </label>
-          <label>
-            Website:
-            <input
-              type="text"
-              name="website"
+            <TextField
+              fullWidth
+              label="Website"
               onChange={(e) => setFarm({ ...farm, website: e.target.value })}
             />
-          </label>
-          <button type="button" onClick={addFarm}>
-            Add Farm
-          </button>
+            <Button fullWidth size="large" onClick={addFarm}>
+              Add Farm
+            </Button>
+          </Stack>
         </form>
       </section>
     </div>

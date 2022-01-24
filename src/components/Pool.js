@@ -1,15 +1,15 @@
 import React, { memo, useCallback, useEffect, useState } from "react";
-import Accordion from "@material-ui/core/Accordion";
-import Divider from "@material-ui/core/Divider";
-import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
+import Accordion from "@mui/material/Accordion";
+import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid";
+import makeStyles from '@mui/styles/makeStyles';
 import BigNumber from "bignumber.js";
 import PoolSummary from "./PoolSummary";
 
 import { byDecimals } from "../helpers/bignumber";
 import { useSelector } from "react-redux";
 import PoolActions from "./PoolActions";
-import AccordionDetails from "@material-ui/core/AccordionActions";
+import AccordionDetails from "@mui/material/AccordionActions";
 // import { useLaunchpoolSubscriptions } from "../../../stake/redux/hooks";
 
 const styles = (theme) => ({
