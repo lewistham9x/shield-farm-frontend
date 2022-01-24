@@ -193,7 +193,9 @@ function App() {
         <StyledEngineProvider injectFirst>
           <ThemeProvider theme={theme}>
             <SnackbarProvider>
-              <Button onClick={() => setShow(true)}>Add Farm</Button>
+              <div style={{ textAlign: "center", margin: "auto" }}>
+                <Button onClick={() => setShow(true)}>Add Farm</Button>
+              </div>
               {/* <Button disabled until features are ready
                 disableElevation
                 className={classes.walletDisplay}

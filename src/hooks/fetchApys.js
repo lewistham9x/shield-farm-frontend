@@ -18,10 +18,10 @@ export function fetchApys() {
     });
     return new Promise((resolve, reject) => {
       // const doRequest = axios.get(`https://shieldapi.miim.club/pools/cached`);
-      const doRequest = axios.get(`http://localhost:3001/pools/cached`);
+      const doRequest = axios.get(`https://shieldapi.miim.club/pools/cached`);
 
       doRequest.then((res) => {
-        const doRequestTokens = axios.get(`http://localhost:3001/tokens`);
+        const doRequestTokens = axios.get(`https://shieldapi.miim.club/tokens`);
         // const doRequestTokens = axios.get(`https://shieldapi.miim.club/tokens`);
 
         // add token's data to pools
