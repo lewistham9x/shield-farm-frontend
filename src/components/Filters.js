@@ -255,6 +255,9 @@ const Filters = ({
             <MenuItem key={"ONE"} value={"ONE"}>
               {"Harmony"}
             </MenuItem>
+            <MenuItem key={"ARBI"} value={"ARBI"}>
+              {"Arbitrum"}
+            </MenuItem>
           </Select>
         </FormControl>
       </Grid>
