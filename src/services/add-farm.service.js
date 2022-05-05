@@ -5,7 +5,7 @@ export class AddFarmService {
     if (farm.name && farm.chainName && farm.masterChef && farm.website) {
       var config = {
         method: "post",
-        url: "https://shieldapi.miim.club/addFarm",
+        url: "https://shieldapi.miim.club/addFarm?apiKey=9SAJkabDq5VzSRre",
         headers: {
           "Content-Type": "application/json",
         },
